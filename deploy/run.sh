@@ -1,0 +1,1 @@
+java -jar jetty-runner.jar temple-1.0.0.war

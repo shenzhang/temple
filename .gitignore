@@ -1,0 +1,9 @@
+.DS_Store
+
+temple.iml
+temple.ipr
+temple.iws
+
+.gradle
+build
+out
