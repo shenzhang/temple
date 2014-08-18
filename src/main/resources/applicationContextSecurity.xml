@@ -6,17 +6,21 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<!--<http auto-config='true'>-->
-		<!--<http-basic/>-->
-		<!--<intercept-url pattern="/**" access="ROLE_USER"/>-->
-	<!--</http>-->
+	<http pattern="/login" security="none"/>
+	<http pattern="/js/**" security="none"/>
+	<http pattern="/css/**" security="none"/>
 
-	<!--<authentication-manager>-->
-		<!--<authentication-provider>-->
-			<!--<user-service>-->
-				<!--<user name="admin" password="123" authorities="ROLE_USER, ROLE_ADMIN"/>-->
-				<!--<user name="user" password="123" authorities="ROLE_USER"/>-->
-			<!--</user-service>-->
-		<!--</authentication-provider>-->
-	<!--</authentication-manager>-->
+	<http auto-config='true'>
+		<form-login login-page="/login"/>
+		<intercept-url pattern="/**" access="ROLE_USER"/>
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="123" authorities="ROLE_USER, ROLE_ADMIN"/>
+				<user name="user" password="123" authorities="ROLE_USER"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
 </beans:beans>

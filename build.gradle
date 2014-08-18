@@ -44,6 +44,10 @@ dependencies {
             'org.springframework.security:spring-security-config:3.2.5.RELEASE'
     )
 
+    providedCompile(
+            'javax.servlet:javax.servlet-api:3.1.0'
+    )
+
     testCompile(
             'junit:junit:4.11',
 			'org.easymock:easymock:3.2'
@@ -55,6 +59,7 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
 }
 
+// build and deploy the application
 task deploy(dependsOn: 'build') << {
     delete "$deployDir"
 
