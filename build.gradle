@@ -1,4 +1,5 @@
 apply plugin: 'jetty'
+apply from: 'config/database/database.gradle'
 
 ext {
     springVersion = '4.0.3.RELEASE'
