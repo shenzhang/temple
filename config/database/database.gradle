@@ -1,4 +1,36 @@
-task createDB << {
+import groovy.sql.Sql
+
+configurations {
+    driver
+}
+
+dependencies {
+    driver 'postgresql:postgresql:9.1-901.jdbc4'
+    driver 'org.xerial:sqlite-jdbc:3.7.2'
+}
+
+task loadDriver << {
+    URLClassLoader loader = GroovyObject.class.classLoader
+    configurations.driver.each {File file ->
+        loader.addURL(file.toURL())
+    }
+}
+
+task sql(dependsOn: loadDriver) << {
+    delete 'config/database/temple.db'
+
+    def connection = Sql.newInstance("$dbUrl", "$dbUser", "$dbPassword", "$dbDriver")
+
+    connection.execute('create table test (id int not null)')
+    connection.execute('insert into test (id) values(1)')
+    connection.eachRow('select * from test') {
+        println it
+    }
+
+    connection.close()
+}
+
+task createDB(dependsOn: loadDriver) << {
     println 'begin create database...'
 
     println 'done'
