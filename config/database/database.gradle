@@ -1,5 +1,10 @@
 import groovy.sql.Sql
 
+ext {
+    schemaDir = file('config/database/schema')
+    dataDir = file('config/database/data')
+}
+
 configurations {
     driver
 }
@@ -16,22 +21,47 @@ task loadDriver << {
     }
 }
 
-task sql(dependsOn: loadDriver) << {
+def createSchema(connection, fileName) {
+    println "begin create schema from $fileName"
+
+    def file = new File(schemaDir, fileName)
+    def sql = new StringBuilder()
+    file.eachLine {
+        sql.append(it)
+    }
+
+    if (sql.length() > 0) {
+        connection.execute(sql.toString())
+    }
+}
+
+def importData(connection, fileName) {
+    println "import data from $fileName"
+
+    def file = new File(dataDir, fileName)
+    def sql = new StringBuilder()
+    file.eachLine {
+        sql.append(it)
+    }
+
+    if (sql.length() > 0) {
+        println(sql.toString())
+        connection.execute(sql.toString())
+    }
+}
+
+task createDB(dependsOn: loadDriver) << {
+    println 'begin create database...\n'
+
     delete 'config/database/temple.db'
 
     def connection = Sql.newInstance("$dbUrl", "$dbUser", "$dbPassword", "$dbDriver")
 
-    connection.execute('create table test (id int not null)')
-    connection.execute('insert into test (id) values(1)')
-    connection.eachRow('select * from test') {
-        println it
-    }
+    createSchema(connection, 'create-db.sql')
+
+    importData(connection, 'user.sql');
 
     connection.close()
-}
 
-task createDB(dependsOn: loadDriver) << {
-    println 'begin create database...'
-
-    println 'done'
+    println '\ndone'
 }
