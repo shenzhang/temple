@@ -11,16 +11,12 @@
 	<http pattern="/css/**" security="none"/>
 
 	<http auto-config='true'>
-		<form-login login-page="/login"/>
+		<form-login login-page="/login" default-target-url="/index"/>
+		<logout logout-success-url="/login"/>
 		<intercept-url pattern="/**" access="ROLE_USER"/>
 	</http>
 
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="admin" password="123" authorities="ROLE_USER, ROLE_ADMIN"/>
-				<user name="user" password="123" authorities="ROLE_USER"/>
-			</user-service>
-		</authentication-provider>
+		<authentication-provider user-service-ref="userDetailsService"/>
 	</authentication-manager>
 </beans:beans>

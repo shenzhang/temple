@@ -7,7 +7,7 @@
 
 	<context:property-placeholder location="classpath:temple.properties" system-properties-mode="OVERRIDE"/>
 
-	<context:component-scan base-package="temple"/>
+	<!--<context:component-scan base-package="temple"/>-->
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${driverClass}"/>
