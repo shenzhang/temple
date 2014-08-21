@@ -16,8 +16,16 @@ dependencies {
 
 task loadDriver << {
     URLClassLoader loader = GroovyObject.class.classLoader
-    configurations.driver.each {File file ->
+    configurations.driver.each { File file ->
         loader.addURL(file.toURL())
+    }
+}
+
+def executeSql(connection, sql) {
+    sql = sql.trim()
+    if (sql.length() > 0) {
+        println(sql)
+        connection.execute(sql)
     }
 }
 
@@ -30,8 +38,8 @@ def createSchema(connection, fileName) {
         sql.append(it)
     }
 
-    if (sql.length() > 0) {
-        connection.execute(sql.toString())
+    sql.toString().split(';').each() {
+        executeSql(connection, it)
     }
 }
 
@@ -44,9 +52,8 @@ def importData(connection, fileName) {
         sql.append(it)
     }
 
-    if (sql.length() > 0) {
-        println(sql.toString())
-        connection.execute(sql.toString())
+    sql.toString().split(';').each() {
+        executeSql(connection, it);
     }
 }
 
@@ -59,7 +66,11 @@ task createDB(dependsOn: loadDriver) << {
 
     createSchema(connection, 'create-db.sql')
 
+    println '\n'
+
     importData(connection, 'user.sql');
+    importData(connection, 'temple.sql');
+    importData(connection, 'city.sql');
 
     connection.close()
 
