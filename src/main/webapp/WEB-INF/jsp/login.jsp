@@ -8,7 +8,13 @@
 </c:if>
 
 <form action="j_spring_security_check" method="post">
-    <input type="text" name="j_username"/>
-    <input type="text" name="j_password"/>
+    <input id="username" type="text" name="j_username" placeholder="User ID"/>
+    <input id="password" type="text" name="j_password" placeholder="Password"/>
     <input type="submit" class="btn btn-primary" value="Login"/>
 </form>
+
+<script>
+    $(function() {
+        $('#username').get(0).focus();
+    });
+</script>
