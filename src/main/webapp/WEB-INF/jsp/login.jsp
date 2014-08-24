@@ -7,10 +7,25 @@
     </div>
 </c:if>
 
-<form action="j_spring_security_check" method="post">
-    <input id="username" type="text" name="j_username" placeholder="User ID"/>
-    <input id="password" type="text" name="j_password" placeholder="Password"/>
-    <input type="submit" class="btn btn-primary" value="Login"/>
+<form class="form-horizontal" role="form" action="j_spring_security_check" method="post" style="padding-top:50px">
+    <div class="form-group">
+        <label for="username" class="col-sm-offset-2 col-sm-2 control-label">User ID</label>
+        <div class="col-sm-8">
+            <input id="username" type="text" name="j_username" placeholder="User ID"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="password" class="col-sm-offset-2 col-sm-2 control-label">Password</label>
+        <div class="col-sm-8">
+            <input id="password" type="text" name="j_password" placeholder="Password"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+            <input type="submit" class="btn btn-primary" value="Login"/>
+        </div>
+    </div>
 </form>
 
 <script>

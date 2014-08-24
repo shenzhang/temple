@@ -24,8 +24,10 @@ public class SearchController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String search(@ModelAttribute SearchMemberInfo searchMemberInfo, ModelMap model) {
+    public String search(@ModelAttribute("info") SearchMemberInfo searchMemberInfo, ModelMap model) {
         model.put("menu", SEARCH_MENU);
+
+
         return "search";
     }
 }

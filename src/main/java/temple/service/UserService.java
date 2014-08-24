@@ -29,4 +29,9 @@ public class UserService {
     public void updateUser(int id, User user) {
         userDao.updateUserById(id, user);
     }
+
+    @Transactional
+    public void addUser(User user) {
+        userDao.addUser(user);
+    }
 }

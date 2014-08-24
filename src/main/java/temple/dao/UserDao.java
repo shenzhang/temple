@@ -3,6 +3,7 @@ package temple.dao;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import temple.model.User;
+import temple.sql.JdbcTemplateHelper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,6 +35,10 @@ public class UserDao extends AutowiredJdbcDaoSupport {
     public void updateUserById(int id, User user) {
         getJdbcTemplate().update("UPDATE T_USER SET NAME = ?, PASSWORD = ? WHERE ID = ?",
                 user.getName(), user.getPassword(), user.getId());
+    }
+
+    public void addUser(User user) {
+        new JdbcTemplateHelper(getJdbcTemplate()).insert(user, "id");
     }
 
     public void deleteUserById(int id) {

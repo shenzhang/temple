@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -29,14 +29,7 @@
                         <li><a href="#">New Member</a></li>
                     </ul>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Management <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li id="searchUser"><a href="searchUser">Search User</a></li>
-                        <li id="addUser"><a href="addUser">New User</a></li>
-                    </ul>
-                </li>
-                <%--<li class="active"><a href="search">Search Member</a></li>--%>
+                <li id="searchUser"><a href="searchUser">User Management</a></li>
             </ul>
             <form class="navbar-form navbar-left" role="search" method="post" action="search">
                 <div class="form-group">
@@ -50,7 +43,7 @@
             </ul>
         </div>
     </div>
-</nav>
+</div>
 
 <script>
     $(function() {

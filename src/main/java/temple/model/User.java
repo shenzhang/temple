@@ -1,10 +1,13 @@
 package temple.model;
 
+import temple.sql.Table;
+
 /**
  * User: shenzhang
  * Date: 8/19/14
  * Time: 10:56 PM
  */
+@Table("T_USER")
 public class User {
     private int id;
     private String name;
