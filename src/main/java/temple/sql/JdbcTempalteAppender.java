@@ -13,13 +13,13 @@ import static com.google.common.collect.Lists.newArrayList;
  * Date: 8/30/14
  * Time: 7:52 PM
  */
-class JdbcTempalteAppender {
+public class JdbcTempalteAppender {
     private JdbcTemplateHelper helper;
     private JdbcTemplate jdbcTemplate;
     private StringBuilder sql = new StringBuilder();
     private List<Object> parameters = newArrayList();
 
-    public JdbcTempalteAppender(JdbcTemplateHelper jdbcTemplateHelper) {
+    JdbcTempalteAppender(JdbcTemplateHelper jdbcTemplateHelper) {
         this.helper = jdbcTemplateHelper;
         this.jdbcTemplate = jdbcTemplateHelper.getJdbcTemplate();
     }

@@ -68,6 +68,8 @@ public class JdbcTemplateHelper {
     }
 
     public <T> List<T> queryForList(Class<T> clazz, String sql, Object... parameters) {
+        TableMetaData sqlColumns = metaData.getSqlColumns(sql);
+
         return null;
     }
 
@@ -89,6 +91,22 @@ public class JdbcTemplateHelper {
             sb.append(c);
         }
         return sb.toString().toUpperCase();
+    }
+
+    String column2Property(String column) {
+        StringBuilder sb = new StringBuilder();
+        boolean underscore = false;
+        for (char c : column.toCharArray()) {
+            if (c == '_') {
+                underscore = true;
+                continue;
+            }
+
+            sb.append(underscore ? Character.toUpperCase(c) : Character.toLowerCase(c));
+            underscore = false;
+        }
+
+        return sb.toString();
     }
 
     String getTableName(Class<?> clazz) {

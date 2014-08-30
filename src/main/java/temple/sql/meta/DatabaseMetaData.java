@@ -3,7 +3,9 @@ package temple.sql.meta;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import temple.sql.page.PageCreator;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -18,23 +20,54 @@ import static com.google.common.collect.Maps.newHashMap;
  * Time: 10:56 PM
  */
 public class DatabaseMetaData {
-    private static Map<String, TableMetaData> metaDataCache = newConcurrentMap();
+    private static Map<DataSource, Map<String, TableMetaData>> metaDataCache = newConcurrentMap();
     private MetaDataExtractor extractor = new MetaDataExtractor();
     private JdbcTemplate jdbcTemplate;
+    private PageCreator pageCreator;
 
     public DatabaseMetaData(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public void setPageCreator(PageCreator pageCreator) {
+        this.pageCreator = pageCreator;
+    }
+
     public TableMetaData getTableColumns(String table) {
-        if (metaDataCache.containsKey(table)) {
-            return metaDataCache.get(table);
+        table = table.toUpperCase().trim();
+        return getSqlColumns("SELECT * FROM " + table);
+    }
+
+    public TableMetaData getSqlColumns(String sql) {
+        TableMetaData cachedTableMeta = getCachedTableMeta(sql);
+        if (cachedTableMeta != null) {
+            return cachedTableMeta;
         }
 
-        TableMetaData values = jdbcTemplate.query("SELECT * FROM " + table, extractor);
-        metaDataCache.put(table, values);
+        String selectSql = pageCreator != null ? pageCreator.createPage(sql, 0, 1) : sql;
+        TableMetaData values = jdbcTemplate.query(selectSql, extractor);
+        cacheTableMeta(sql, values);
 
         return values;
+    }
+
+    private TableMetaData getCachedTableMeta(String sql) {
+        Map<String, TableMetaData> map = metaDataCache.get(jdbcTemplate.getDataSource());
+        if (map == null) {
+            return null;
+        }
+
+        return map.get(sql);
+    }
+
+    private void cacheTableMeta(String sql, TableMetaData meta) {
+        Map<String, TableMetaData> map = metaDataCache.get(jdbcTemplate.getDataSource());
+        if (map == null) {
+            map = newConcurrentMap();
+            metaDataCache.put(jdbcTemplate.getDataSource(), map);
+        }
+
+        map.put(sql, meta);
     }
 
     private static class MetaDataExtractor implements ResultSetExtractor<TableMetaData> {

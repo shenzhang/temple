@@ -45,17 +45,17 @@ public class JdbcTemplateHelperTest {
 
     @Test
     public void shouldParseTableNameFromObject() throws Exception {
-        assertThat(helper.getTableName(user).toUpperCase(), is(USER_TABLE));
+        assertThat(helper.getTableName(User.class).toUpperCase(), is(USER_TABLE));
     }
 
     @Test
     public void shoudParseTableNameFromParentClass() throws Exception {
-        assertThat(helper.getTableName(new User()).toUpperCase(), is(USER_TABLE));
+        assertThat(helper.getTableName(User.class).toUpperCase(), is(USER_TABLE));
     }
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionIfTheObjectIsNotAnnotatedWithTable() throws Exception {
-        helper.getTableName(new Object());
+        helper.getTableName(Object.class);
     }
 
     @Test
@@ -65,6 +65,14 @@ public class JdbcTemplateHelperTest {
         assertThat(helper.property2Column("aBc").toLowerCase(), is("a_bc"));
         assertThat(helper.property2Column("ABC").toLowerCase(), is("a_b_c"));
         assertThat(helper.property2Column("abC").toLowerCase(), is("ab_c"));
+    }
+
+    @Test
+    public void shouldTranslateColumn2PropertyCorrectly() throws Exception {
+        assertThat(helper.column2Property(""), is(""));
+        assertThat(helper.column2Property("a_b"), is("aB"));
+        assertThat(helper.column2Property("A_B"), is("aB"));
+        assertThat(helper.column2Property("ab"), is("ab"));
     }
 
     @Test
