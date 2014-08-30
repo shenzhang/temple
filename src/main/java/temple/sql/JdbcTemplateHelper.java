@@ -3,16 +3,21 @@ package temple.sql;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import temple.sql.annotation.Table;
 import temple.sql.builder.InsertSqlBuilder;
 import temple.sql.meta.DatabaseMetaData;
 import temple.sql.meta.TableMetaData;
 
+import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
@@ -67,10 +72,44 @@ public class JdbcTemplateHelper {
         jdbcTemplate.update(build.create(), parameters.toArray());
     }
 
-    public <T> List<T> queryForList(Class<T> clazz, String sql, Object... parameters) {
+    public <T> List<T> queryForList(final Class<T> clazz, String sql, Object... parameters) {
         TableMetaData sqlColumns = metaData.getSqlColumns(sql);
+        final List<String> columns = sqlColumns.getColumns();
+        final Map<String, Field> map = newHashMap();
+        for (String column : columns) {
+            String property = column2Property(column);
+            try {
+                Field field = clazz.getDeclaredField(property);
+                field.setAccessible(true);
+                map.put(column, field);
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException("Can not find correct field from class: " + clazz.getName() + " according to column: " + column);
+            }
+        }
+        RowMapper<T> rowMapper = new RowMapper<T>() {
+            @Override
+            public T mapRow(ResultSet rs, int rowNum) throws SQLException {
+                T object;
+                try {
+                    object = clazz.newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException("Can not instance query object: " + clazz.toString(), e);
+                }
 
-        return null;
+                for (String column : columns) {
+                    Object value = rs.getObject(column);
+                    try {
+                        map.get(column).set(object, value);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Set value error for column: " + column, e);
+                    }
+                }
+
+                return object;
+            }
+        };
+
+        return jdbcTemplate.query(sql, parameters, rowMapper);
     }
 
     public <T> T queryForObject(Class<T> clazz, String sql, Object... parameters) {
@@ -117,7 +156,7 @@ public class JdbcTemplateHelper {
         }
 
 
-        if (table == null){
+        if (table == null) {
             throw new RuntimeException("Can't retrieve table information");
         }
 

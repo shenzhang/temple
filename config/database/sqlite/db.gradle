@@ -1,0 +1,10 @@
+ext {
+    dbDriver = 'org.sqlite.JDBC'
+    dbUrl = 'jdbc:sqlite:config/database/temple.db'
+    dbUser = 'twer'
+    dbPassword = '123'
+}
+
+dependencies {
+    driver 'org.xerial:sqlite-jdbc:3.7.2'
+}

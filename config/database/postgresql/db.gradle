@@ -1,0 +1,10 @@
+ext {
+    dbDriver = 'org.sqlite.JDBC'
+    dbUrl = 'jdbc:sqlite:config/database/temple.db'
+    dbUser = 'twer'
+    dbPassword = '123'
+}
+
+dependencies {
+    driver 'postgresql:postgresql:9.1-901.jdbc4'
+}

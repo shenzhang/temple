@@ -21,13 +21,13 @@ public class Member {
     private String membershipAcquisitionTempleCode;
     private String membershipAcquisitionCityCode;
     private Date memberPurificationDate;
-    private Date memberFamiltyTempleDate;
+    private Date memberFamilyTempleDate;
     private String masterName;
     private String guarantorName;
     private int groupNumber;
     private Date dob;
     private int lastUpdateUserId;
-    private Date updateDate;
+    private Date lastUpdateDate;
 
     public int getId() {
         return id;
@@ -109,12 +109,12 @@ public class Member {
         this.memberPurificationDate = memberPurificationDate;
     }
 
-    public Date getMemberFamiltyTempleDate() {
-        return memberFamiltyTempleDate;
+    public Date getMemberFamilyTempleDate() {
+        return memberFamilyTempleDate;
     }
 
-    public void setMemberFamiltyTempleDate(Date memberFamiltyTempleDate) {
-        this.memberFamiltyTempleDate = memberFamiltyTempleDate;
+    public void setMemberFamilyTempleDate(Date memberFamilyTempleDate) {
+        this.memberFamilyTempleDate = memberFamilyTempleDate;
     }
 
     public String getMasterName() {
@@ -157,11 +157,11 @@ public class Member {
         this.lastUpdateUserId = lastUpdateUserId;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 }

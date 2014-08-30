@@ -1,18 +1,16 @@
 import groovy.sql.Sql
 
 ext {
-    schemaDir = file('config/database/schema')
-    dataDir = file('config/database/data')
+    databaseType = defaultProperty('db', 'sqlite')
+    schemaDir = file("config/database/$databaseType/schema")
+    dataDir = file("config/database/$databaseType/data")
 }
 
 configurations {
     driver
 }
 
-dependencies {
-    driver 'postgresql:postgresql:9.1-901.jdbc4'
-    driver 'org.xerial:sqlite-jdbc:3.7.2'
-}
+apply from: "config/database/$databaseType/db.gradle"
 
 task loadDriver << {
     URLClassLoader loader = GroovyObject.class.classLoader

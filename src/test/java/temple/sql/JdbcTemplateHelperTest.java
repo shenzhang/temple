@@ -10,7 +10,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import temple.model.Member;
 import temple.model.User;
+
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
@@ -120,7 +123,17 @@ public class JdbcTemplateHelperTest {
         assertNotNull(appender);
     }
 
+    @Test
+    public void shouldQueryListByClass() throws Exception {
+        List<Member> members = helper.queryForList(Member.class, "SELECT * FROM T_MEMBER");
+        assertThat(members.size(), is(2));
+    }
+
     private void clearAllRows() {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, USER_TABLE);
+    }
+
+    private void clearAllRows(String table) {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, table);
     }
 }

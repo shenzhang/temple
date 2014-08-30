@@ -83,3 +83,6 @@ task deploy(dependsOn: 'build') << {
     }
 }
 
+def defaultProperty(name, defaultValue) {
+    hasProperty(name) ? property(name) : defaultValue
+}
