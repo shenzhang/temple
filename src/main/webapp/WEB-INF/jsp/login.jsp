@@ -18,7 +18,7 @@
     <div class="form-group">
         <label for="password" class="col-sm-offset-2 col-sm-2 control-label">Password</label>
         <div class="col-sm-8">
-            <input id="password" type="text" name="j_password" placeholder="Password"/>
+            <input id="password" type="password" name="j_password" placeholder="Password"/>
         </div>
     </div>
     <div class="form-group">

@@ -1,6 +1,7 @@
 package temple.model;
 
-import temple.sql.Table;
+import com.google.common.base.Objects;
+import temple.sql.annotation.Table;
 
 /**
  * User: shenzhang
@@ -12,6 +13,8 @@ public class User {
     private int id;
     private String name;
     private String password;
+
+    private String confirmPassword;
 
     public int getId() {
         return id;
@@ -35,5 +38,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(getClass())
+                .add("name", getName())
+                .add("password", getPassword())
+                .add("confirmPassword", confirmPassword)
+                .toString();
     }
 }

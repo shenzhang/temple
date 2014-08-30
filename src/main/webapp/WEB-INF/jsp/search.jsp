@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -9,8 +12,7 @@
 
                 <div class="form-group">
                     <label for="introducerName">Introducer:</label>
-                    <input class="form-control" type="text" id="introducerName" placeholder="Introducer Name"
-                           value="${info.introducerName}">
+                    <input class="form-control" type="text" id="introducerName" placeholder="Introducer Name" value="${info.introducerName}">
                 </div>
                 <div class="form-group">
                     <label for="acquisitionDate">Acquisition Date:</label>
@@ -19,6 +21,12 @@
 
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <hr/>
         </div>
     </div>
 </div>

@@ -71,6 +71,7 @@ task createDB(dependsOn: loadDriver) << {
     importData(connection, 'user.sql');
     importData(connection, 'temple.sql');
     importData(connection, 'city.sql');
+    importData(connection, 'member.sql');
 
     connection.close()
 

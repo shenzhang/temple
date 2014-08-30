@@ -14,8 +14,13 @@ import temple.model.SearchMemberInfo;
  */
 @Controller
 @RequestMapping("/search")
-public class SearchController {
+public class MemberController {
     private static final String SEARCH_MENU = "search";
+
+    @ModelAttribute("info")
+    public SearchMemberInfo info() {
+        return new SearchMemberInfo();
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String show(ModelMap model) {

@@ -6,13 +6,13 @@ package temple.model;
  * Time: 9:55 PM
  */
 public class SearchUserInfo {
-    private int userId = -1;
+    private String userId;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 }

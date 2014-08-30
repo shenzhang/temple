@@ -9,6 +9,9 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/login.jsp" />
 	</definition>
 
+	<definition name="test" extends="contentLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/test.jsp" />
+	</definition>
 
 	<definition name="mainLayout" template="/WEB-INF/jsp/mainLayout.jsp"/>
 
@@ -19,5 +22,4 @@
 	<definition name="searchUser" extends="mainLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/searchUser.jsp" />
 	</definition>
-
 </tiles-definitions>

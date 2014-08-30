@@ -1,4 +1,4 @@
-package temple.sql;
+package temple.sql.meta;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,4 +1,4 @@
-package temple.sql;
+package temple.sql.meta;
 
 import java.util.List;
 import java.util.Map;
@@ -29,23 +29,5 @@ public final class TableMetaData {
 
     public ColumnMetaData getColumnMeta(String column) {
         return meta.get(column.toUpperCase());
-    }
-}
-
-class ColumnMetaData {
-    private String columnName;
-    private Class<?> type;
-
-    public ColumnMetaData(String name, Class<?> type) {
-        this.columnName = name;
-        this.type = type;
-    }
-
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public Class<?> getType() {
-        return type;
     }
 }

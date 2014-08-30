@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import temple.model.Member;
 import temple.model.SearchMemberInfo;
 import temple.sql.JdbcTemplateHelper;
+import temple.sql.JdbcTempalteAppender;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,16 +36,13 @@ public class MemberDao extends AutowiredJdbcDaoSupport {
         return 1;
     }
 
-    public void updateMemberById(int id, Member memeber) {
-//        getJdbcTemplate().update("UPDATE T_USER SET NAME = ?, PASSWORD = ? WHERE ID = ?",
-//                user.getName(), user.getPassword(), user.getId());
-    }
-
     public void deleteMemberById(int id) {
         getJdbcTemplate().update("DELETE FROM T_MEMBER WHERE ID = ?", id);
     }
 
     public List<Member> searchMember(SearchMemberInfo info) {
+        JdbcTempalteAppender appender = new JdbcTemplateHelper(getJdbcTemplate()).createAppender();
+        appender.append("SELECT * FROM T_MEMBER");
         return null;
     }
 }

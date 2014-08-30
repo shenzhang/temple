@@ -3,7 +3,10 @@ package temple.sql;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import temple.sql.annotation.Table;
 import temple.sql.builder.InsertSqlBuilder;
+import temple.sql.meta.DatabaseMetaData;
+import temple.sql.meta.TableMetaData;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +29,10 @@ public class JdbcTemplateHelper {
         this.metaData = new DatabaseMetaData(jdbcTemplate);
     }
 
+    JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
     public void insert(Object object, String... excludes) {
         Set<String> excludesSet = newHashSet();
         for (String column : excludes) {
@@ -39,7 +46,7 @@ public class JdbcTemplateHelper {
             throw new RuntimeException(e);
         }
 
-        String table = getTableName(object);
+        String table = getTableName(object.getClass());
         InsertSqlBuilder build = new InsertSqlBuilder(table);
         List<Object> parameters = newArrayList();
 
@@ -60,6 +67,19 @@ public class JdbcTemplateHelper {
         jdbcTemplate.update(build.create(), parameters.toArray());
     }
 
+    public <T> List<T> queryForList(Class<T> clazz, String sql, Object... parameters) {
+        return null;
+    }
+
+    public <T> T queryForObject(Class<T> clazz, String sql, Object... parameters) {
+        List<T> list = queryForList(clazz, sql, parameters);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    public JdbcTempalteAppender createAppender() {
+        return new JdbcTempalteAppender(this);
+    }
+
     String property2Column(String property) {
         StringBuilder sb = new StringBuilder(property.length());
         for (char c : property.toCharArray()) {
@@ -71,9 +91,8 @@ public class JdbcTemplateHelper {
         return sb.toString().toUpperCase();
     }
 
-    String getTableName(Object object) {
+    String getTableName(Class<?> clazz) {
         Table table = null;
-        Class<?> clazz = object.getClass();
         while (table == null && !clazz.equals(Object.class)) {
             table = clazz.getAnnotation(Table.class);
             clazz = clazz.getSuperclass();

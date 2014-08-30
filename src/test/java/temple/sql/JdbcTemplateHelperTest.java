@@ -10,11 +10,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import temple.model.NewUser;
 import temple.model.User;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -50,7 +50,7 @@ public class JdbcTemplateHelperTest {
 
     @Test
     public void shoudParseTableNameFromParentClass() throws Exception {
-        assertThat(helper.getTableName(new NewUser()).toUpperCase(), is(USER_TABLE));
+        assertThat(helper.getTableName(new User()).toUpperCase(), is(USER_TABLE));
     }
 
     @Test(expected = RuntimeException.class)
@@ -106,6 +106,11 @@ public class JdbcTemplateHelperTest {
         assertThat(sqlRowSet.getString("PASSWORD"), is("123"));
     }
 
+    @Test
+    public void shouldCeateNewJdbcTemplateAppender() throws Exception {
+        JdbcTempalteAppender appender = helper.createAppender();
+        assertNotNull(appender);
+    }
 
     private void clearAllRows() {
         JdbcTestUtils.deleteFromTables(jdbcTemplate, USER_TABLE);
