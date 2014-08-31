@@ -11,14 +11,14 @@
     <div class="form-group">
         <label for="username" class="col-sm-offset-2 col-sm-2 control-label">User ID</label>
         <div class="col-sm-8">
-            <input id="username" type="text" name="j_username" placeholder="User ID"/>
+            <input id="username" type="text" name="j_username"/>
         </div>
     </div>
 
     <div class="form-group">
         <label for="password" class="col-sm-offset-2 col-sm-2 control-label">Password</label>
         <div class="col-sm-8">
-            <input id="password" type="password" name="j_password" placeholder="Password"/>
+            <input id="password" type="password" name="j_password"/>
         </div>
     </div>
     <div class="form-group">

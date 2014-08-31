@@ -55,10 +55,13 @@ def importData(connection, fileName) {
     }
 }
 
+
 task createDB(dependsOn: loadDriver) << {
     println 'begin create database...\n'
 
-    delete 'config/database/temple.db'
+    dropDatabase();
+
+    createDatabase();
 
     def connection = Sql.newInstance("$dbUrl", "$dbUser", "$dbPassword", "$dbDriver")
 

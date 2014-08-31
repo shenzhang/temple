@@ -1,14 +1,11 @@
 package temple.dao;
 
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import temple.model.Member;
 import temple.model.SearchMemberInfo;
-import temple.sql.JdbcTemplateHelper;
 import temple.sql.JdbcTempalteAppender;
+import temple.sql.JdbcTemplateHelper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -18,17 +15,8 @@ import java.util.List;
  */
 @Repository
 public class MemberDao extends AutowiredJdbcDaoSupport {
-    public static final RowMapper<Member> MEMBER_ROW_MAPPER = new RowMapper<Member>() {
-        @Override
-        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Member member = new Member();
-            return member;
-        }
-    };
-
     public Member getMemberById(int id) {
-        List<Member> members = getJdbcTemplate().query("SELECT * FROM T_MEMBER WHERE ID = ?", MEMBER_ROW_MAPPER, id);
-        return members.isEmpty() ? null : members.get(0);
+        return new JdbcTemplateHelper(getJdbcTemplate()).queryForObject(Member.class, "SELECT * FROM T_MEMBER WHERE ID = ?", id);
     }
 
     public int addMember(Member member) {
@@ -43,6 +31,6 @@ public class MemberDao extends AutowiredJdbcDaoSupport {
     public List<Member> searchMember(SearchMemberInfo info) {
         JdbcTempalteAppender appender = new JdbcTemplateHelper(getJdbcTemplate()).createAppender();
         appender.append("SELECT * FROM T_MEMBER");
-        return null;
+        return appender.queryForList(Member.class);
     }
 }

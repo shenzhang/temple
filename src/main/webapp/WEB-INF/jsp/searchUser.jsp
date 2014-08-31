@@ -8,7 +8,7 @@
                 <form:errors path="*" class="error" element="div"/>
                 <div class="form-group">
                     <label for="userId">User ID:</label>
-                    <form:input class="form-control" id="userId" name="userId" placeholder="User ID" path="userId"/>
+                    <form:input class="form-control" id="userId" name="userId" path="userId"/>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Search User</button>

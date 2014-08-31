@@ -8,3 +8,13 @@ ext {
 dependencies {
     driver 'postgresql:postgresql:9.1-901.jdbc4'
 }
+
+ext {
+    dropDatabase = {
+
+    }
+
+    createDatabase = {
+
+    }
+}

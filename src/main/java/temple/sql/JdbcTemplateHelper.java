@@ -10,8 +10,6 @@ import temple.sql.meta.DatabaseMetaData;
 import temple.sql.meta.TableMetaData;
 
 import java.lang.reflect.Field;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +25,7 @@ import static com.google.common.collect.Sets.newHashSet;
  */
 public class JdbcTemplateHelper {
     private DatabaseMetaData metaData;
+    private RowMapperCache rowMapperCache = new RowMapperCache();
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateHelper(JdbcTemplate template) {
@@ -73,6 +72,26 @@ public class JdbcTemplateHelper {
     }
 
     public <T> List<T> queryForList(final Class<T> clazz, String sql, Object... parameters) {
+        QueryKey<T> queryKey = new QueryKey<T>(jdbcTemplate.getDataSource(), clazz, sql);
+        RowMapper<T> rowMapper = rowMapperCache.get(queryKey);
+        if (rowMapper == null) {
+            rowMapper = generateRowMapper(clazz, sql);
+            rowMapperCache.add(queryKey, rowMapper);
+        }
+
+        return jdbcTemplate.query(sql, parameters, rowMapper);
+    }
+
+    public <T> T queryForObject(Class<T> clazz, String sql, Object... parameters) {
+        List<T> list = queryForList(clazz, sql, parameters);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    public JdbcTempalteAppender createAppender() {
+        return new JdbcTempalteAppender(this);
+    }
+
+    <T> RowMapper<T> generateRowMapper(final Class<T> clazz, String sql) {
         TableMetaData sqlColumns = metaData.getSqlColumns(sql);
         final List<String> columns = sqlColumns.getColumns();
         final Map<String, Field> map = newHashMap();
@@ -86,39 +105,8 @@ public class JdbcTemplateHelper {
                 throw new RuntimeException("Can not find correct field from class: " + clazz.getName() + " according to column: " + column);
             }
         }
-        RowMapper<T> rowMapper = new RowMapper<T>() {
-            @Override
-            public T mapRow(ResultSet rs, int rowNum) throws SQLException {
-                T object;
-                try {
-                    object = clazz.newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException("Can not instance query object: " + clazz.toString(), e);
-                }
 
-                for (String column : columns) {
-                    Object value = rs.getObject(column);
-                    try {
-                        map.get(column).set(object, value);
-                    } catch (Exception e) {
-                        throw new RuntimeException("Set value error for column: " + column, e);
-                    }
-                }
-
-                return object;
-            }
-        };
-
-        return jdbcTemplate.query(sql, parameters, rowMapper);
-    }
-
-    public <T> T queryForObject(Class<T> clazz, String sql, Object... parameters) {
-        List<T> list = queryForList(clazz, sql, parameters);
-        return list.isEmpty() ? null : list.get(0);
-    }
-
-    public JdbcTempalteAppender createAppender() {
-        return new JdbcTempalteAppender(this);
+        return new ReflectRowMapper<T>(clazz, map);
     }
 
     String property2Column(String property) {

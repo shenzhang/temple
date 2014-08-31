@@ -8,3 +8,12 @@ ext {
 dependencies {
     driver 'org.xerial:sqlite-jdbc:3.7.2'
 }
+
+ext {
+    dropDatabase = {
+        delete 'config/database/temple.db'
+    }
+
+    createDatabase = {
+    }
+}
