@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import temple.model.Member;
 import temple.model.SearchMemberInfo;
 import temple.sql.JdbcTempalteAppender;
-import temple.sql.JdbcTemplateHelper;
+import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import java.util.List;
 
@@ -14,22 +14,22 @@ import java.util.List;
  * Time: 10:55 PM
  */
 @Repository
-public class MemberDao extends AutowiredJdbcDaoSupport {
+public class MemberDao extends AutowiredJdbcEnhancementDaoSupport {
     public Member getMemberById(int id) {
-        return new JdbcTemplateHelper(getJdbcTemplate()).queryForObject(Member.class, "SELECT * FROM T_MEMBER WHERE ID = ?", id);
+        return jdbcEnhancement.queryForObject(Member.class, "SELECT * FROM T_MEMBER WHERE ID = ?", id);
     }
 
     public int addMember(Member member) {
-        new JdbcTemplateHelper(getJdbcTemplate()).insert(member, "ID");
+        jdbcEnhancement.insert(member, "ID");
         return 1;
     }
 
     public void deleteMemberById(int id) {
-        getJdbcTemplate().update("DELETE FROM T_MEMBER WHERE ID = ?", id);
+        jdbcTemplate.update("DELETE FROM T_MEMBER WHERE ID = ?", id);
     }
 
     public List<Member> searchMember(SearchMemberInfo info) {
-        JdbcTempalteAppender appender = new JdbcTemplateHelper(getJdbcTemplate()).createAppender();
+        JdbcTempalteAppender appender = jdbcEnhancement.createAppender();
         appender.append("SELECT * FROM T_MEMBER");
         return appender.queryForList(Member.class);
     }

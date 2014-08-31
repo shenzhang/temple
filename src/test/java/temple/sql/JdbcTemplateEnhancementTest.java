@@ -33,16 +33,16 @@ import static org.junit.Assert.assertTrue;
         "classpath:applicationContextTest.xml"
 })
 @TransactionConfiguration
-public class JdbcTemplateHelperTest {
+public class JdbcTemplateEnhancementTest {
     private static final String USER_TABLE = "T_USER";
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private JdbcTemplateHelper helper;
+    private JdbcTemplateEnhancement helper;
     private User user;
 
     @Before
     public void setUp() throws Exception {
-        helper = new JdbcTemplateHelper(jdbcTemplate);
+        helper = new JdbcTemplateEnhancement(jdbcTemplate);
         user = new User();
     }
 

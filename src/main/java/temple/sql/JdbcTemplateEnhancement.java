@@ -1,15 +1,18 @@
 package temple.sql;
 
+import com.google.common.base.Strings;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import temple.sql.annotation.Table;
 import temple.sql.builder.InsertSqlBuilder;
+import temple.sql.builder.UpdateSqlBuilder;
 import temple.sql.meta.DatabaseMetaData;
 import temple.sql.meta.TableMetaData;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,12 +26,12 @@ import static com.google.common.collect.Sets.newHashSet;
  * Date: 8/23/14
  * Time: 7:48 PM
  */
-public class JdbcTemplateHelper {
+public class JdbcTemplateEnhancement {
     private DatabaseMetaData metaData;
     private RowMapperCache rowMapperCache = new RowMapperCache();
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcTemplateHelper(JdbcTemplate template) {
+    public JdbcTemplateEnhancement(JdbcTemplate template) {
         this.jdbcTemplate = template;
         this.metaData = new DatabaseMetaData(jdbcTemplate);
     }
@@ -37,10 +40,12 @@ public class JdbcTemplateHelper {
         return jdbcTemplate;
     }
 
-    public void insert(Object object, String... excludes) {
+    public void insert(Object object, String... excludeColumns) {
         Set<String> excludesSet = newHashSet();
-        for (String column : excludes) {
-            excludesSet.add(column.toUpperCase());
+        if (excludeColumns != null) {
+            for (String column : excludeColumns) {
+                excludesSet.add(column.toUpperCase());
+            }
         }
 
         Map<String, String> properties;
@@ -53,7 +58,6 @@ public class JdbcTemplateHelper {
         String table = getTableName(object.getClass());
         InsertSqlBuilder build = new InsertSqlBuilder(table);
         List<Object> parameters = newArrayList();
-
         TableMetaData tableColumns = metaData.getTableColumns(table);
         Set<String> exitingColumns = newHashSet(tableColumns.getColumns());
         try {
@@ -71,7 +75,51 @@ public class JdbcTemplateHelper {
         jdbcTemplate.update(build.create(), parameters.toArray());
     }
 
-    public <T> List<T> queryForList(final Class<T> clazz, String sql, Object... parameters) {
+    public void update(Object object, String where, Object... whereParameters) {
+        this.update(object, null, where, whereParameters);
+    }
+
+    public void update(Object object, Collection<String> excludeColumns, String where, Object... whereParameters) {
+        Set<String> excludesSet = newHashSet();
+        if (excludeColumns != null) {
+            for (String column : excludeColumns) {
+                excludesSet.add(column.toUpperCase());
+            }
+        }
+
+        Map<String, String> properties;
+        try {
+            properties = BeanUtils.describe(object);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        String table = getTableName(object.getClass());
+        UpdateSqlBuilder build = new UpdateSqlBuilder(table);
+        List<Object> parameters = newArrayList();
+        TableMetaData tableColumns = metaData.getTableColumns(table);
+        Set<String> exitingColumns = newHashSet(tableColumns.getColumns());
+        try {
+            for (String property : properties.keySet()) {
+                String column = property2Column(property);
+                if (!excludesSet.contains(column) && exitingColumns.contains(column)) {
+                    build.appendColumn(column);
+                    parameters.add(BeanUtilsBean.getInstance().getPropertyUtils().getProperty(object, property));
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (!Strings.isNullOrEmpty(where)) {
+            build.setWhere(where);
+            parameters.addAll(newArrayList(whereParameters));
+        }
+
+        jdbcTemplate.update(build.create(), parameters.toArray());
+    }
+
+    public <T> List<T> queryForList(Class<T> clazz, String sql, Object... parameters) {
         QueryKey<T> queryKey = new QueryKey<T>(jdbcTemplate.getDataSource(), clazz, sql);
         RowMapper<T> rowMapper = rowMapperCache.get(queryKey);
         if (rowMapper == null) {

@@ -1,8 +1,10 @@
 package temple.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import temple.model.User;
 
 /**
  * User: shenzhang
@@ -13,6 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/test")
 public class TestController {
     @RequestMapping(method = RequestMethod.GET)
-    public void get() {
+    public void get(@ModelAttribute("fish")User user) {
     }
 }

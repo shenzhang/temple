@@ -14,14 +14,14 @@ import static com.google.common.collect.Lists.newArrayList;
  * Time: 7:52 PM
  */
 public class JdbcTempalteAppender {
-    private JdbcTemplateHelper helper;
+    private JdbcTemplateEnhancement helper;
     private JdbcTemplate jdbcTemplate;
     private StringBuilder sql = new StringBuilder();
     private List<Object> parameters = newArrayList();
 
-    JdbcTempalteAppender(JdbcTemplateHelper jdbcTemplateHelper) {
-        this.helper = jdbcTemplateHelper;
-        this.jdbcTemplate = jdbcTemplateHelper.getJdbcTemplate();
+    JdbcTempalteAppender(JdbcTemplateEnhancement jdbcTemplateEnhancement) {
+        this.helper = jdbcTemplateEnhancement;
+        this.jdbcTemplate = jdbcTemplateEnhancement.getJdbcTemplate();
     }
 
     public void append(String sql, Object... parameters) {

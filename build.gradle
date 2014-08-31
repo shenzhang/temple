@@ -1,5 +1,6 @@
 ext {
     springVersion = '4.0.3.RELEASE'
+    metricsVersion = '3.0.1'
     deployDir = "$buildDir/deploy"
 }
 
@@ -43,6 +44,10 @@ dependencies {
             'javax.servlet.jsp.jstl:jstl:1.2',
             'org.apache.tiles:tiles-core:3.0.4',
             'org.apache.tiles:tiles-jsp:3.0.4',
+            "com.codahale.metrics:metrics-core:$metricsVersion",
+            "com.codahale.metrics:metrics-annotation:$metricsVersion",
+            "com.codahale.metrics:metrics-servlets:$metricsVersion",
+            "com.codahale.metrics:metrics-jvm:$metricsVersion",
 
             "org.springframework:spring-webmvc:$springVersion",
             "org.springframework:spring-jdbc:$springVersion",
