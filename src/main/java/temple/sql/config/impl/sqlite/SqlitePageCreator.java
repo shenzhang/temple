@@ -12,7 +12,7 @@ public class SqlitePageCreator implements PageCreator {
     public String createPage(String sql, int offset, int limit) {
         StringBuilder sb = new StringBuilder();
         sb.append("select * from (").append(sql).append(")");
-        sb.append(" offset ").append(offset).append(" limit ").append(limit);
+        sb.append(" limit ").append(limit).append(" offset ").append(offset);
         return sb.toString();
     }
 }

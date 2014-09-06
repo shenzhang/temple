@@ -1,4 +1,4 @@
-package temple.sql;
+package temple.sql.config;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,17 +9,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import temple.sql.meta.DatabaseMetaData;
-import temple.sql.meta.TableMetaData;
+import temple.sql.config.impl.sqlite.SqlitePageCreator;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static temple.sql.config.GlobalConfiguration.getGlobalConfiguration;
 
 /**
  * User: shenzhang
- * Date: 8/23/14
- * Time: 10:56 PM
+ * Date: 9/6/14
+ * Time: 8:32 PM
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -28,24 +26,18 @@ import static org.junit.Assert.assertTrue;
 })
 @Transactional
 @TransactionConfiguration
-public class DatabaseMetaDataTest {
+public class GlobalConfigurationTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private DatabaseMetaData metaData;
-
     @Before
     public void setUp() throws Exception {
-        metaData = new DatabaseMetaData(jdbcTemplate);
+        getGlobalConfiguration().reset();
     }
 
     @Test
-    public void shouldRetireveColumnMetaDataCorrectly() throws Exception {
-        TableMetaData metaData = this.metaData.getTableColumns("T_USER");
-
-        assertThat(metaData.getColumns().size(), is(3));
-        assertTrue(metaData.hasColumn("ID"));
-        assertTrue(metaData.hasColumn("NAME"));
-        assertTrue(metaData.hasColumn("PASSWORD"));
+    public void shouldXXX() throws Exception {
+        Configuration configuration = getGlobalConfiguration().getConfiguration(jdbcTemplate.getDataSource());
+        assertTrue(configuration.getPageCreator() instanceof SqlitePageCreator);
     }
 }

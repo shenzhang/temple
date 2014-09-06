@@ -1,9 +1,11 @@
-package temple.sql;
+package temple.sql.rowMapper;
 
 import org.springframework.jdbc.core.RowMapper;
+import temple.sql.rowMapper.extractor.DateValueExtractor;
+import temple.sql.rowMapper.extractor.DefaultResultSetValueExtractor;
+import temple.sql.rowMapper.extractor.ResultSetValueExtractor;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -16,26 +18,22 @@ import static com.google.common.collect.Maps.newHashMap;
  * Date: 8/31/14
  * Time: 10:26 AM
  */
-class ReflectRowMapper<T> implements RowMapper<T> {
-    private static final Map<Class<?>, Method> map = newHashMap();
+public class ReflectRowMapper<T> implements RowMapper<T> {
+    private static final Map<Class<?>, ResultSetValueExtractor> map = newHashMap();
 
     static {
-        try {
-            map.put(String.class, ResultSet.class.getMethod("getString", String.class));
-            map.put(Date.class, ResultSet.class.getMethod("getDate", String.class));
-            map.put(int.class, ResultSet.class.getMethod("getInt", String.class));
-            map.put(Integer.class, ResultSet.class.getMethod("getInt", String.class));
-            map.put(long.class, ResultSet.class.getMethod("getLong", String.class));
-            map.put(Long.class, ResultSet.class.getMethod("getLong", String.class));
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Initialize class ReflectRowMapper error", e);
-        }
+        map.put(String.class, new DefaultResultSetValueExtractor("getString"));
+        map.put(int.class, new DefaultResultSetValueExtractor("getInt"));
+        map.put(Integer.class, new DefaultResultSetValueExtractor("getInt"));
+        map.put(long.class, new DefaultResultSetValueExtractor("getLong"));
+        map.put(Long.class, new DefaultResultSetValueExtractor("getLong"));
+        map.put(Date.class, new DateValueExtractor());
     }
 
     private Class<T> clazz;
     private Map<String, Field> column2FieldMapper;
 
-    ReflectRowMapper(Class<T> clazz, Map<String, Field> column2FieldMapper) {
+    public ReflectRowMapper(Class<T> clazz, Map<String, Field> column2FieldMapper) {
         this.clazz = clazz;
         this.column2FieldMapper = column2FieldMapper;
     }
@@ -63,14 +61,14 @@ class ReflectRowMapper<T> implements RowMapper<T> {
     }
 
     private Object getTargetValue(ResultSet rs, String columnName, Class<?> fieldClass) throws SQLException {
-        Method method = map.get(fieldClass);
-        if (method == null) {
+        ResultSetValueExtractor extractor = map.get(fieldClass);
+        if (extractor == null) {
             throw new RuntimeException("Can not find ResultSet value extractor for class: " + fieldClass.getName());
         }
 
         Object value;
         try {
-            value = method.invoke(rs, columnName);
+            value = extractor.extract(rs, columnName);
         } catch (Exception e) {
             throw new RuntimeException("Extract value from ResultSet failed for class: " + fieldClass.getName(), e);
         }

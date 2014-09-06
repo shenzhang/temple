@@ -1,4 +1,4 @@
-package temple.sql;
+package temple.sql.rowMapper;
 
 
 import com.google.common.base.Objects;
@@ -10,12 +10,12 @@ import javax.sql.DataSource;
  * Date: 8/31/14
  * Time: 10:04 AM
  */
-class QueryKey<T> {
+public class QueryKey<T> {
     private DataSource dataSource;
     private Class<T> clazz;
     private String sql;
 
-    QueryKey(DataSource dataSource, Class<T> clazz, String sql) {
+    public QueryKey(DataSource dataSource, Class<T> clazz, String sql) {
         this.dataSource = dataSource;
         this.clazz = clazz;
         this.sql = sql;

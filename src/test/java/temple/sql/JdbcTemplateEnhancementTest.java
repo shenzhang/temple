@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.jdbc.JdbcTestUtils;
+import org.springframework.transaction.annotation.Transactional;
 import temple.model.Member;
 import temple.model.User;
 
@@ -29,9 +30,9 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
         "classpath:applicationContext.xml",
-        "classpath:applicationContextDao.xml",
         "classpath:applicationContextTest.xml"
 })
+@Transactional
 @TransactionConfiguration
 public class JdbcTemplateEnhancementTest {
     private static final String USER_TABLE = "T_USER";
@@ -48,34 +49,34 @@ public class JdbcTemplateEnhancementTest {
 
     @Test
     public void shouldParseTableNameFromObject() throws Exception {
-        assertThat(helper.getTableName(User.class).toUpperCase(), is(USER_TABLE));
+        assertThat(Util.getTableName(User.class).toUpperCase(), is(USER_TABLE));
     }
 
     @Test
     public void shoudParseTableNameFromParentClass() throws Exception {
-        assertThat(helper.getTableName(User.class).toUpperCase(), is(USER_TABLE));
+        assertThat(Util.getTableName(User.class).toUpperCase(), is(USER_TABLE));
     }
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionIfTheObjectIsNotAnnotatedWithTable() throws Exception {
-        helper.getTableName(Object.class);
+        Util.getTableName(Object.class);
     }
 
     @Test
     public void shouldTranslateProperty2ColumnCorrectly() throws Exception {
-        assertThat(helper.property2Column("").toLowerCase(), is(""));
-        assertThat(helper.property2Column("abc").toLowerCase(), is("abc"));
-        assertThat(helper.property2Column("aBc").toLowerCase(), is("a_bc"));
-        assertThat(helper.property2Column("ABC").toLowerCase(), is("a_b_c"));
-        assertThat(helper.property2Column("abC").toLowerCase(), is("ab_c"));
+        assertThat(Util.property2Column("").toLowerCase(), is(""));
+        assertThat(Util.property2Column("abc").toLowerCase(), is("abc"));
+        assertThat(Util.property2Column("aBc").toLowerCase(), is("a_bc"));
+        assertThat(Util.property2Column("ABC").toLowerCase(), is("a_b_c"));
+        assertThat(Util.property2Column("abC").toLowerCase(), is("ab_c"));
     }
 
     @Test
     public void shouldTranslateColumn2PropertyCorrectly() throws Exception {
-        assertThat(helper.column2Property(""), is(""));
-        assertThat(helper.column2Property("a_b"), is("aB"));
-        assertThat(helper.column2Property("A_B"), is("aB"));
-        assertThat(helper.column2Property("ab"), is("ab"));
+        assertThat(Util.column2Property(""), is(""));
+        assertThat(Util.column2Property("a_b"), is("aB"));
+        assertThat(Util.column2Property("A_B"), is("aB"));
+        assertThat(Util.column2Property("ab"), is("ab"));
     }
 
     @Test
@@ -125,14 +126,13 @@ public class JdbcTemplateEnhancementTest {
         user.setPassword("123");
 
         assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, USER_TABLE), is(0));
-        Integer key = helper.insertAndReturnGeneratedKey(Integer.class, "id", user, "id");
+        long key = helper.insertAndReturnGeneratedKey("id", user, "id");
 
         assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, USER_TABLE), is(1));
         SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM T_USER");
 
         assertTrue(sqlRowSet.next());
-        assertThat(sqlRowSet.getInt("ID"), is(not(0)));
-        assertThat(sqlRowSet.getInt("ID"), is(key));
+        assertThat(sqlRowSet.getInt("ID"), is((int)key));
         assertThat(sqlRowSet.getString("NAME"), is("name"));
         assertThat(sqlRowSet.getString("PASSWORD"), is("123"));
     }
@@ -147,6 +147,12 @@ public class JdbcTemplateEnhancementTest {
     public void shouldQueryListByClass() throws Exception {
         List<Member> members = helper.queryForList(Member.class, "SELECT * FROM T_MEMBER");
         assertThat(members.size(), is(2));
+    }
+
+
+    @Test
+    public void shouldRollback() throws Exception {
+        clearAllRows();
     }
 
     private void clearAllRows() {

@@ -6,13 +6,15 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import temple.sql.annotation.Table;
 import temple.sql.builder.InsertSqlBuilder;
 import temple.sql.builder.UpdateSqlBuilder;
+import temple.sql.config.Configuration;
+import temple.sql.config.feature.GeneratedKeyFetcher;
 import temple.sql.meta.DatabaseMetaData;
 import temple.sql.meta.TableMetaData;
+import temple.sql.rowMapper.QueryKey;
+import temple.sql.rowMapper.RowMapperFactory;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,9 @@ import java.util.Set;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
+import static temple.sql.Util.getTableName;
+import static temple.sql.Util.property2Column;
+import static temple.sql.config.GlobalConfiguration.getGlobalConfiguration;
 
 /**
  * User: shenzhang
@@ -29,12 +34,13 @@ import static com.google.common.collect.Sets.newHashSet;
  */
 public class JdbcTemplateEnhancement {
     private DatabaseMetaData metaData;
-    private RowMapperCache rowMapperCache = new RowMapperCache();
+    private RowMapperFactory rowMapperFactory;
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateEnhancement(JdbcTemplate template) {
         this.jdbcTemplate = template;
         this.metaData = new DatabaseMetaData(jdbcTemplate);
+        this.rowMapperFactory = new RowMapperFactory(jdbcTemplate);
     }
 
     JdbcTemplate getJdbcTemplate() {
@@ -76,7 +82,7 @@ public class JdbcTemplateEnhancement {
         jdbcTemplate.update(build.create(), parameters.toArray());
     }
 
-    public <T extends Number> T insertAndReturnGeneratedKey(Class<T> keyClass, String keyColumn, Object object, String... excludeColumns) {
+    public long insertAndReturnGeneratedKey(String keyColumn, Object object, String... excludeColumns) {
         Set<String> excludesSet = newHashSet();
         if (excludeColumns != null) {
             for (String column : excludeColumns) {
@@ -112,12 +118,20 @@ public class JdbcTemplateEnhancement {
         insert.setGeneratedKeyName(keyColumn);
         insert.usingColumns(parameters.keySet().toArray(new String[parameters.size()]));
 
-        Number key = insert.executeAndReturnKey(parameters);
-        if (keyClass.isAssignableFrom(key.getClass())) {
-            return keyClass.cast(key);
+        try {
+            Number number = insert.executeAndReturnKey(parameters);
+        } catch (Exception e) {
+            Configuration configuration = getGlobalConfiguration().getConfiguration(jdbcTemplate.getDataSource());
+            GeneratedKeyFetcher keyFetcher = configuration.getKeyFetcher();
+            if (keyFetcher != null) {
+                insert(object, excludeColumns);
+                return keyFetcher.getGeneratedKey(this, table, keyColumn);
+            } else {
+                throw e;
+            }
         }
 
-        return (T)(Integer)(-1);
+        return 0L;
     }
 
     public void update(Object object, String where, Object... whereParameters) {
@@ -166,12 +180,7 @@ public class JdbcTemplateEnhancement {
 
     public <T> List<T> queryForList(Class<T> clazz, String sql, Object... parameters) {
         QueryKey<T> queryKey = new QueryKey<T>(jdbcTemplate.getDataSource(), clazz, sql);
-        RowMapper<T> rowMapper = rowMapperCache.get(queryKey);
-        if (rowMapper == null) {
-            rowMapper = generateRowMapper(clazz, sql);
-            rowMapperCache.add(queryKey, rowMapper);
-        }
-
+        RowMapper<T> rowMapper = rowMapperFactory.createRowMapper(queryKey);
         return jdbcTemplate.query(sql, parameters, rowMapper);
     }
 
@@ -182,65 +191,5 @@ public class JdbcTemplateEnhancement {
 
     public JdbcTempalteAppender createAppender() {
         return new JdbcTempalteAppender(this);
-    }
-
-    <T> RowMapper<T> generateRowMapper(final Class<T> clazz, String sql) {
-        TableMetaData sqlColumns = metaData.getSqlColumns(sql);
-        final List<String> columns = sqlColumns.getColumns();
-        final Map<String, Field> map = newHashMap();
-        for (String column : columns) {
-            String property = column2Property(column);
-            try {
-                Field field = clazz.getDeclaredField(property);
-                field.setAccessible(true);
-                map.put(column, field);
-            } catch (NoSuchFieldException e) {
-                throw new RuntimeException("Can not find correct field from class: " + clazz.getName() + " according to column: " + column);
-            }
-        }
-
-        return new ReflectRowMapper<T>(clazz, map);
-    }
-
-    String property2Column(String property) {
-        StringBuilder sb = new StringBuilder(property.length());
-        for (char c : property.toCharArray()) {
-            if (c >= 'A' && c <= 'Z' && sb.length() > 0) {
-                sb.append('_');
-            }
-            sb.append(c);
-        }
-        return sb.toString().toUpperCase();
-    }
-
-    String column2Property(String column) {
-        StringBuilder sb = new StringBuilder();
-        boolean underscore = false;
-        for (char c : column.toCharArray()) {
-            if (c == '_') {
-                underscore = true;
-                continue;
-            }
-
-            sb.append(underscore ? Character.toUpperCase(c) : Character.toLowerCase(c));
-            underscore = false;
-        }
-
-        return sb.toString();
-    }
-
-    String getTableName(Class<?> clazz) {
-        Table table = null;
-        while (table == null && !clazz.equals(Object.class)) {
-            table = clazz.getAnnotation(Table.class);
-            clazz = clazz.getSuperclass();
-        }
-
-
-        if (table == null) {
-            throw new RuntimeException("Can't retrieve table information");
-        }
-
-        return table.value();
     }
 }

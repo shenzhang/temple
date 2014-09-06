@@ -5,6 +5,8 @@ import temple.sql.config.feature.PageCreator;
 
 import javax.sql.DataSource;
 
+import static temple.sql.config.GlobalConfiguration.getGlobalConfiguration;
+
 /**
  * User: shenzhang
  * Date: 9/6/14
@@ -16,7 +18,7 @@ public class SpringConfigBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Configuration configuration = GlobalConfiguration.getConfiguration(dataSource);
+        Configuration configuration = getGlobalConfiguration().getConfiguration(dataSource);
         configuration.setPageCreator(pageCreator);
     }
 }

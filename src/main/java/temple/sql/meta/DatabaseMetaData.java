@@ -13,6 +13,7 @@ import java.util.Map;
 
 import static com.google.common.collect.Maps.newConcurrentMap;
 import static com.google.common.collect.Maps.newHashMap;
+import static temple.sql.config.GlobalConfiguration.getGlobalConfiguration;
 
 /**
  * User: shenzhang
@@ -27,10 +28,7 @@ public class DatabaseMetaData {
 
     public DatabaseMetaData(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void setPageCreator(PageCreator pageCreator) {
-        this.pageCreator = pageCreator;
+        this.pageCreator = getGlobalConfiguration().getConfiguration(jdbcTemplate.getDataSource()).getPageCreator();
     }
 
     public TableMetaData getTableColumns(String table) {

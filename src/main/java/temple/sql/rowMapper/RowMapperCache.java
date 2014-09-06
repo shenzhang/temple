@@ -1,4 +1,4 @@
-package temple.sql;
+package temple.sql.rowMapper;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -11,7 +11,7 @@ import static com.google.common.collect.Maps.newConcurrentMap;
  * Date: 8/31/14
  * Time: 10:15 AM
  */
-public class RowMapperCache {
+class RowMapperCache {
     private static Map<QueryKey, RowMapper> map = newConcurrentMap();
 
     public <T> void add(QueryKey<T> key, RowMapper<T> mapper) {
