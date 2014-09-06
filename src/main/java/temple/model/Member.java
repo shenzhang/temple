@@ -3,6 +3,7 @@ package temple.model;
 import temple.sql.annotation.Table;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: shenzhang
@@ -28,6 +29,11 @@ public class Member {
     private Date dob;
     private int lastUpdateUserId;
     private Date lastUpdateDate;
+
+    // member contact
+    private MemberContact memberContact;
+    // member notes
+    private List<MemberNote> memberNotes;
 
     public int getId() {
         return id;
@@ -163,5 +169,21 @@ public class Member {
 
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public MemberContact getMemberContact() {
+        return memberContact;
+    }
+
+    public void setMemberContact(MemberContact memberContact) {
+        this.memberContact = memberContact;
+    }
+
+    public List<MemberNote> getMemberNotes() {
+        return memberNotes;
+    }
+
+    public void setMemberNotes(List<MemberNote> memberNotes) {
+        this.memberNotes = memberNotes;
     }
 }

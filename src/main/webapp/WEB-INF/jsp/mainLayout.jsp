@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="css/temple.css">
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/lodash.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-datepicker.js"></script>
+
+    <script src="js/temple.js"></script>
 </head>
 <body>
 <div>
@@ -26,5 +29,6 @@
         <tiles:insertAttribute name="content" />
     </div>
 </div>
+
 </body>
 </html>

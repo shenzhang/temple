@@ -4,23 +4,23 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form class="form-inline" role="form" method="post" action="search">
+            <form:form class="form-inline" role="form" method="post" action="search" commandName="info">
                 <div class="form-group">
                     <label for="name">Member Name:</label>
-                    <input type="text" class="form-control" id="name" value="${info.name}">
+                    <form:input type="text" class="form-control" id="name" path="name"/>
                 </div>
 
                 <div class="form-group">
                     <label for="introducerName">Introducer:</label>
-                    <input class="form-control" type="text" id="introducerName" value="${info.introducerName}">
+                    <form:input class="form-control" type="text" id="introducerName" path="introducerName"/>
                 </div>
                 <div class="form-group">
                     <label for="acquisitionDate">Acquisition Date:</label>
-                    <input type="text" class="form-control" id="acquisitionDate" readonly="readonly" style="width: 100px">
+                    <form:input type="text" class="form-control datepicker" id="acquisitionDate" path="acquisitionDate"/>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Search</button>
-            </form>
+                <button type="submit" id="btnMemberSearch" class="btn btn-primary">Search</button>
+            </form:form>
         </div>
     </div>
 
@@ -62,6 +62,8 @@
 
 <script>
     $(function () {
-        $('#acquisitionDate').datepicker();
+        $('#btnMemberSearch').click(function() {
+            if (!temple.validateDate($('#acquisitionDate'), 'Acquisition Date')) return false;
+        });
     });
 </script>

@@ -33,7 +33,7 @@
             </ul>
             <form class="navbar-form navbar-left" role="search" method="post" action="search">
                 <div class="form-group">
-                    <input name="name" type="text" class="form-control" placeholder="Member Name">
+                    <input id="menuSearchName" name="name" type="text" class="form-control" placeholder="Member Name" value="${bannerSearchName}"/>
                 </div>
                 <button type="submit" class="btn btn-default">Search</button>
             </form>

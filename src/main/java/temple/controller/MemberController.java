@@ -2,6 +2,7 @@ package temple.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,27 +21,23 @@ import static com.google.common.collect.Lists.newArrayList;
  * Time: 10:52 PM
  */
 @Controller
-@RequestMapping("/search")
 public class MemberController {
     private static final String SEARCH_MENU = "search";
 
     @Autowired
     private MemberService memberService;
 
-    @ModelAttribute("info")
-    public SearchMemberInfo info() {
-        return new SearchMemberInfo();
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String show(ModelMap model) {
         model.put("menu", SEARCH_MENU);
+        model.put("info", new SearchMemberInfo());
         return "search";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(@ModelAttribute("info") SearchMemberInfo searchMemberInfo, ModelMap model) {
         model.put("menu", SEARCH_MENU);
+        model.put("bannerSearchName", searchMemberInfo.getName());
 
         List<Member> list = newArrayList(new Member(), new Member());
         model.put("result", list);
@@ -49,7 +46,9 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/addMember", method = RequestMethod.GET)
-    public String addMember() {
+    public String addMember(Model model) {
+        model.addAttribute("member", new Member());
+
         return "addMember";
     }
 
