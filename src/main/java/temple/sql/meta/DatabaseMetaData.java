@@ -3,7 +3,7 @@ package temple.sql.meta;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import temple.sql.page.PageCreator;
+import temple.sql.config.feature.PageCreator;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

@@ -1,6 +1,6 @@
-package temple.sql.page.impl;
+package temple.sql.config.impl.sqlite;
 
-import temple.sql.page.PageCreator;
+import temple.sql.config.feature.PageCreator;
 
 /**
  * User: shenzhang

@@ -5,6 +5,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import temple.sql.annotation.Table;
 import temple.sql.builder.InsertSqlBuilder;
 import temple.sql.builder.UpdateSqlBuilder;
@@ -73,6 +74,50 @@ public class JdbcTemplateEnhancement {
         }
 
         jdbcTemplate.update(build.create(), parameters.toArray());
+    }
+
+    public <T extends Number> T insertAndReturnGeneratedKey(Class<T> keyClass, String keyColumn, Object object, String... excludeColumns) {
+        Set<String> excludesSet = newHashSet();
+        if (excludeColumns != null) {
+            for (String column : excludeColumns) {
+                excludesSet.add(column.toUpperCase());
+            }
+        }
+
+        Map<String, String> properties;
+        try {
+            properties = BeanUtils.describe(object);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        String table = getTableName(object.getClass());
+        TableMetaData tableColumns = metaData.getTableColumns(table);
+        Set<String> exitingColumns = newHashSet(tableColumns.getColumns());
+
+        Map<String, Object> parameters = newHashMap();
+        try {
+            for (String property : properties.keySet()) {
+                String column = property2Column(property);
+                if (!excludesSet.contains(column) && exitingColumns.contains(column)) {
+                    parameters.put(column, BeanUtilsBean.getInstance().getPropertyUtils().getProperty(object, property));
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+        insert.setTableName(table);
+        insert.setGeneratedKeyName(keyColumn);
+        insert.usingColumns(parameters.keySet().toArray(new String[parameters.size()]));
+
+        Number key = insert.executeAndReturnKey(parameters);
+        if (keyClass.isAssignableFrom(key.getClass())) {
+            return keyClass.cast(key);
+        }
+
+        return (T)(Integer)(-1);
     }
 
     public void update(Object object, String where, Object... whereParameters) {

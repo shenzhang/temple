@@ -1,4 +1,4 @@
-package temple.sql.page;
+package temple.sql.config.feature;
 
 /**
  * User: shenzhang

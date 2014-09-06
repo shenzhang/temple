@@ -118,6 +118,26 @@ public class JdbcTemplateEnhancementTest {
     }
 
     @Test
+    public void shouldInsertAndReturnGeneratedKey() throws Exception {
+        clearAllRows();
+
+        user.setName("name");
+        user.setPassword("123");
+
+        assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, USER_TABLE), is(0));
+        Integer key = helper.insertAndReturnGeneratedKey(Integer.class, "id", user, "id");
+
+        assertThat(JdbcTestUtils.countRowsInTable(jdbcTemplate, USER_TABLE), is(1));
+        SqlRowSet sqlRowSet = jdbcTemplate.queryForRowSet("SELECT * FROM T_USER");
+
+        assertTrue(sqlRowSet.next());
+        assertThat(sqlRowSet.getInt("ID"), is(not(0)));
+        assertThat(sqlRowSet.getInt("ID"), is(key));
+        assertThat(sqlRowSet.getString("NAME"), is("name"));
+        assertThat(sqlRowSet.getString("PASSWORD"), is("123"));
+    }
+
+    @Test
     public void shouldCeateNewJdbcTemplateAppender() throws Exception {
         JdbcTempalteAppender appender = helper.createAppender();
         assertNotNull(appender);
