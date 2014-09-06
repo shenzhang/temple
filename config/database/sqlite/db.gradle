@@ -10,10 +10,11 @@ dependencies {
 }
 
 ext {
-    dropDatabase = {
+    beforeCreateDatabase = {
         delete 'config/database/temple.db'
     }
 
-    createDatabase = {
+    endCreateDatabase = {
+
     }
 }

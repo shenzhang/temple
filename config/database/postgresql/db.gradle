@@ -1,6 +1,6 @@
 ext {
-    dbDriver = 'org.sqlite.JDBC'
-    dbUrl = 'jdbc:sqlite:config/database/temple.db'
+    dbDriver = 'org.postgresql.Driver'
+    dbUrl = 'jdbc:postgresql://localhost/temple'  //jdbc:postgresql://host/database
     dbUser = 'twer'
     dbPassword = '123'
 }
@@ -10,11 +10,12 @@ dependencies {
 }
 
 ext {
-    dropDatabase = {
-
+    beforeCreateDatabase = { sql ->
+        sql.execute('alter schema public rename to temple')
+        sql.execute('create schema public')
     }
 
-    createDatabase = {
-
+    endCreateDatabase = { sql ->
+        sql.execute('drop schema temple')
     }
 }

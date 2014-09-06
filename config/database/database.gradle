@@ -62,22 +62,37 @@ def importData(connection, fileName) {
 task createDB(dependsOn: loadDriver) << {
     println 'begin create database...\n'
 
-    dropDatabase();
 
-    createDatabase();
+    def sql = Sql.newInstance("$dbUrl", "$dbUser", "$dbPassword", "$dbDriver")
 
-    def connection = Sql.newInstance("$dbUrl", "$dbUser", "$dbPassword", "$dbDriver")
+    sql.connection.setAutoCommit(false)
 
-    createSchema(connection, 'create-db.sql')
+    try {
+        beforeCreateDatabase(sql);
 
-    println '\n'
+        createSchema(sql, 'create-db.sql')
 
-    importData(connection, 'user.sql');
-    importData(connection, 'temple.sql');
-    importData(connection, 'city.sql');
-    importData(connection, 'member.sql');
+        println '\n'
 
-    connection.close()
+        importData(sql, 'user.sql');
+        importData(sql, 'temple.sql');
+        importData(sql, 'city.sql');
+        importData(sql, 'member.sql');
+
+        afterCreateDatabase(sql);
+        sql.commit();
+    } catch (Exception e) {
+        sql.rollback()
+    } finally {
+        sql.close()
+    }
 
     println '\ndone'
+}
+
+dependencies {
+    compile(
+            'org.xerial:sqlite-jdbc:3.7.2',
+            'postgresql:postgresql:9.1-901.jdbc4'
+    )
 }

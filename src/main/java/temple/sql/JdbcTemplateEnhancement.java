@@ -120,6 +120,7 @@ public class JdbcTemplateEnhancement {
 
         try {
             Number number = insert.executeAndReturnKey(parameters);
+            return number.longValue();
         } catch (Exception e) {
             Configuration configuration = getGlobalConfiguration().getConfiguration(jdbcTemplate.getDataSource());
             GeneratedKeyFetcher keyFetcher = configuration.getKeyFetcher();
@@ -130,8 +131,6 @@ public class JdbcTemplateEnhancement {
                 throw e;
             }
         }
-
-        return 0L;
     }
 
     public void update(Object object, String where, Object... whereParameters) {
