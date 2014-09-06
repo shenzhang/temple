@@ -2,6 +2,9 @@ import groovy.sql.Sql
 
 ext {
     databaseType = defaultProperty('db', 'sqlite')
+
+    println "loading database type: ${databaseType}..."
+
     schemaDir = file("config/database/$databaseType/schema")
     dataDir = file("config/database/$databaseType/data")
 }
