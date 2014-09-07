@@ -81,8 +81,11 @@ task createDB(dependsOn: loadDriver) << {
 
         afterCreateDatabase(sql);
         sql.commit();
+        println 'commit database change'
     } catch (Exception e) {
         sql.rollback()
+        println 'rollback database change'
+        throw e
     } finally {
         sql.close()
     }

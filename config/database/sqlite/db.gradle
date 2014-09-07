@@ -14,7 +14,7 @@ ext {
         delete 'config/database/temple.db'
     }
 
-    endCreateDatabase = {
+    afterCreateDatabase = {
 
     }
 }

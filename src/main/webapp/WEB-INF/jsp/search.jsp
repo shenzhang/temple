@@ -54,7 +54,6 @@
                             ${member.acquisitionTemple.membershipAcquisitionTempleName}
                             </td>
                             <td>
-                            <%--${member.membershipAcquisitionDate}--%>
                                 <fmt:formatDate value="${member.membershipAcquisitionDate}" pattern="MM/dd/yyyy"/>
                             </td>
                         </tr>
@@ -74,6 +73,6 @@
     });
 
     function editMember(memberId) {
-        window.location.href = "editMember.jsp?memberId=" + memberId;
+        window.location.href = "editMember?memberId=" + memberId;
     }
 </script>

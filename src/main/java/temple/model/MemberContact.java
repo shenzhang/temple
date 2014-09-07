@@ -17,7 +17,7 @@ public class MemberContact {
     private String addressLine2;
     private String suburb;
     private String state;
-    private String postCode;
+    private String postcode;
 
     public int getMemberId() {
         return memberId;
@@ -83,11 +83,11 @@ public class MemberContact {
         this.state = state;
     }
 
-    public String getPostCode() {
-        return postCode;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 }

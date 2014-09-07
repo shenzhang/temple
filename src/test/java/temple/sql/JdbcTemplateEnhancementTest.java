@@ -63,23 +63,6 @@ public class JdbcTemplateEnhancementTest {
     }
 
     @Test
-    public void shouldTranslateProperty2ColumnCorrectly() throws Exception {
-        assertThat(Util.property2Column("").toLowerCase(), is(""));
-        assertThat(Util.property2Column("abc").toLowerCase(), is("abc"));
-        assertThat(Util.property2Column("aBc").toLowerCase(), is("a_bc"));
-        assertThat(Util.property2Column("ABC").toLowerCase(), is("a_b_c"));
-        assertThat(Util.property2Column("abC").toLowerCase(), is("ab_c"));
-    }
-
-    @Test
-    public void shouldTranslateColumn2PropertyCorrectly() throws Exception {
-        assertThat(Util.column2Property(""), is(""));
-        assertThat(Util.column2Property("a_b"), is("aB"));
-        assertThat(Util.column2Property("A_B"), is("aB"));
-        assertThat(Util.column2Property("ab"), is("ab"));
-    }
-
-    @Test
     public void shouldInsertObjectCorrectlyWithoutExcludes() throws Exception {
         clearAllRows();
 

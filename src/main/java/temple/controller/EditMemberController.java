@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import temple.model.City;
 import temple.model.Member;
 import temple.model.Temple;
@@ -35,10 +36,10 @@ public class EditMemberController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String addMember(int memberId, Model model) {
+    public String addMember(@RequestParam("memberId") int memberId, Model model) {
         Member member = memberService.getMemberById(memberId);
         model.addAttribute("member", member);
-        return "addMember";
+        return "editMember";
     }
 
     @RequestMapping(method = RequestMethod.POST)

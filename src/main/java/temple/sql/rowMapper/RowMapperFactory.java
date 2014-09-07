@@ -2,18 +2,20 @@ package temple.sql.rowMapper;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import temple.sql.config.feature.NameConvertor;
 import temple.sql.meta.DatabaseMetaData;
 import temple.sql.meta.TableMetaData;
 import temple.sql.rowMapper.primitive.IntegerRowMapper;
 import temple.sql.rowMapper.primitive.LongRowMapper;
 import temple.sql.rowMapper.primitive.StringRowMapper;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
 import static com.google.common.collect.Maps.newHashMap;
-import static temple.sql.Util.column2Property;
+import static temple.sql.config.GlobalConfiguration.getGlobalConfiguration;
 
 /**
  * User: shenzhang
@@ -38,6 +40,7 @@ public class RowMapperFactory {
     }
 
     public <T> RowMapper<T> createRowMapper(QueryInformation<T> queryInformation) {
+        DataSource dataSource = queryInformation.getDataSource();
         Class<T> clazz = queryInformation.getClazz();
         String sql = queryInformation.getSql();
 
@@ -49,10 +52,11 @@ public class RowMapperFactory {
         rowMapper = rowMapperCache.get(queryInformation);
         if (rowMapper == null) {
             TableMetaData sqlColumns = metaData.getSqlColumns(sql, queryInformation.getParameters());
-            final List<String> columns = sqlColumns.getColumns();
-            final Map<String, Field> map = newHashMap();
+            List<String> columns = sqlColumns.getColumns();
+            Map<String, Field> map = newHashMap();
+            NameConvertor nameConvertor = getGlobalConfiguration().getConfiguration(dataSource).getNameConvertor();
             for (String column : columns) {
-                String property = column2Property(column);
+                String property = nameConvertor.column2Field(column);
                 try {
                     Field field = clazz.getDeclaredField(property);
                     field.setAccessible(true);

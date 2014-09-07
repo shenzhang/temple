@@ -35,7 +35,7 @@
                 <table style="width:100%; border-collapse: collapse;">
                     <tr>
                         <td colspan="4" class="border-bottom">
-                            Add Member
+                            Edit Member
                         </td>
                     </tr>
 

@@ -15,7 +15,7 @@ ext {
         sql.execute('create schema public')
     }
 
-    endCreateDatabase = { sql ->
-        sql.execute('drop schema temple')
+    afterCreateDatabase = { sql ->
+        sql.execute('drop schema temple cascade')
     }
 }
