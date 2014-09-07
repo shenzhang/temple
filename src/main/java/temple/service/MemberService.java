@@ -1,5 +1,6 @@
 package temple.service;
 
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,13 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public List<Member> searchMember(SearchMemberInfo info) {
-        return null;
+        List<Member> list = memberDao.searchMember(info);
+        for (Member member : list) {
+            if (!Strings.isNullOrEmpty(member.getMembershipAcquisitionTempleCode())) {
+                member.setAcquisitionTemple(templeDao.getTempleByCode(member.getMembershipAcquisitionTempleCode()));
+            }
+        }
+        return list;
     }
 
     @Transactional
@@ -62,6 +69,12 @@ public class MemberService {
         return memberId;
     }
 
+    @Transactional
+    public void updateMember(Member member) {
+
+    }
+
+    @Transactional(readOnly = true)
     public Member getMemberById(int id) {
         Member member = memberDao.getMemberById(id);
         member.setLastModifyUser(userDao.getUserById(member.getLastUpdateUserId()));

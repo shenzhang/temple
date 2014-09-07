@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="container">
@@ -45,12 +46,17 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${result}" var="member">
-                        <tr>
+                        <tr class="clickable-row" title="click to edit member" onclick="editMember(${member.id})">
                             <td>${member.chineseLastName}</td>
                             <td>${member.chineseFirstName}</td>
-                            <td>aa</td>
-                            <td>aa</td>
-                            <td>aa</td>
+                            <td>${member.lastName}, ${member.firstName}</td>
+                            <td>
+                            ${member.acquisitionTemple.membershipAcquisitionTempleName}
+                            </td>
+                            <td>
+                            <%--${member.membershipAcquisitionDate}--%>
+                                <fmt:formatDate value="${member.membershipAcquisitionDate}" pattern="MM/dd/yyyy"/>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -66,4 +72,8 @@
             if (!temple.validateDate($('#acquisitionDate'), 'Acquisition Date')) return false;
         });
     });
+
+    function editMember(memberId) {
+        window.location.href = "editMember.jsp?memberId=" + memberId;
+    }
 </script>

@@ -23,6 +23,10 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/addMember.jsp" />
 	</definition>
 
+	<definition name="editMember" extends="mainLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/editMember.jsp" />
+	</definition>
+
 	<definition name="searchUser" extends="mainLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/searchUser.jsp" />
 	</definition>

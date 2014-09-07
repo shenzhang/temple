@@ -12,8 +12,6 @@ import temple.service.MemberService;
 
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 /**
  * User: shenzhang
  * Date: 8/18/14
@@ -39,7 +37,7 @@ public class SearchMemberController {
         model.put("menu", SEARCH_MENU);
         model.put("bannerSearchName", searchMemberInfo.getName());
 
-        List<Member> list = newArrayList(new Member(), new Member());
+        List<Member> list = memberService.searchMember(searchMemberInfo);
         model.put("result", list);
 
         return "search";

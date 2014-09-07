@@ -42,6 +42,8 @@ public class Member {
     private List<MemberNote> memberNotes;
     // last modify user
     private User lastModifyUser;
+    // acquisition temple
+    private Temple acquisitionTemple;
 
     public Integer getId() {
         return id;
@@ -201,5 +203,13 @@ public class Member {
 
     public void setLastModifyUser(User lastModifyUser) {
         this.lastModifyUser = lastModifyUser;
+    }
+
+    public Temple getAcquisitionTemple() {
+        return acquisitionTemple;
+    }
+
+    public void setAcquisitionTemple(Temple acquisitionTemple) {
+        this.acquisitionTemple = acquisitionTemple;
     }
 }

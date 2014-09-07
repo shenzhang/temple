@@ -16,4 +16,8 @@ public class TempleDao extends AutowiredJdbcEnhancementDaoSupport {
     public List<Temple> listAllTemples() {
         return jdbcEnhancement.queryForList(Temple.class, "select * from t_temple");
     }
+
+    public Temple getTempleByCode(String code) {
+        return jdbcEnhancement.queryForObject(Temple.class, "select * from t_temple where membership_acquisition_temple_code = ?", code);
+    }
 }
