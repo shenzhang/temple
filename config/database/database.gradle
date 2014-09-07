@@ -1,7 +1,7 @@
 import groovy.sql.Sql
 
 ext {
-    databaseType = defaultProperty('db', 'sqlite')
+    databaseType = defaultProperty('db', 'postgresql')
 
     println "loading database type: ${databaseType}..."
 

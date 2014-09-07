@@ -71,7 +71,12 @@
                         <td>DOB:</td>
                         <td><form:input class="datepicker" id="dob" path="dob"/></td>
                         <td>Membership Acquisition Template:</td>
-                        <td></td>
+                        <td>
+                            <form:select path="membershipAcquisitionTempleCode">
+                                <form:options items="${allTemples}" itemValue="membershipAcquisitionTempleCode"
+                                              itemLabel="membershipAcquisitionTempleName"/>
+                            </form:select>
+                        </td>
                     </tr>
 
                     <tr>

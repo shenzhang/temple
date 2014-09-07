@@ -10,15 +10,17 @@ import javax.sql.DataSource;
  * Date: 8/31/14
  * Time: 10:04 AM
  */
-public class QueryKey<T> {
+public class QueryInformation<T> {
     private DataSource dataSource;
     private Class<T> clazz;
     private String sql;
+    private Object[] parameters;
 
-    public QueryKey(DataSource dataSource, Class<T> clazz, String sql) {
+    public QueryInformation(DataSource dataSource, Class<T> clazz, String sql, Object... parameters) {
         this.dataSource = dataSource;
         this.clazz = clazz;
         this.sql = sql;
+        this.parameters = parameters;
     }
 
     public DataSource getDataSource() {
@@ -33,6 +35,10 @@ public class QueryKey<T> {
         return sql;
     }
 
+    public Object[] getParameters() {
+        return parameters;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(dataSource, clazz, sql);
@@ -40,11 +46,11 @@ public class QueryKey<T> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof QueryKey)) {
+        if (obj == null || !(obj instanceof QueryInformation)) {
             return false;
         }
 
-        QueryKey key = (QueryKey)obj;
+        QueryInformation key = (QueryInformation)obj;
         return Objects.equal(key.dataSource, dataSource)
                 && Objects.equal(key.clazz, clazz)
                 && Objects.equal(key.sql, sql);

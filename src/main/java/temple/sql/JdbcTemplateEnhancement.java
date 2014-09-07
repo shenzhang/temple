@@ -12,7 +12,7 @@ import temple.sql.config.Configuration;
 import temple.sql.config.feature.GeneratedKeyFetcher;
 import temple.sql.meta.DatabaseMetaData;
 import temple.sql.meta.TableMetaData;
-import temple.sql.rowMapper.QueryKey;
+import temple.sql.rowMapper.QueryInformation;
 import temple.sql.rowMapper.RowMapperFactory;
 
 import java.util.Collection;
@@ -178,8 +178,8 @@ public class JdbcTemplateEnhancement {
     }
 
     public <T> List<T> queryForList(Class<T> clazz, String sql, Object... parameters) {
-        QueryKey<T> queryKey = new QueryKey<T>(jdbcTemplate.getDataSource(), clazz, sql);
-        RowMapper<T> rowMapper = rowMapperFactory.createRowMapper(queryKey);
+        QueryInformation<T> queryInformation = new QueryInformation<T>(jdbcTemplate.getDataSource(), clazz, sql, parameters);
+        RowMapper<T> rowMapper = rowMapperFactory.createRowMapper(queryInformation);
         return jdbcTemplate.query(sql, parameters, rowMapper);
     }
 

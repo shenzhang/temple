@@ -20,7 +20,7 @@ public class MemberDao extends AutowiredJdbcEnhancementDaoSupport {
     }
 
     public int addMember(Member member) {
-        return (int)jdbcEnhancement.insertAndReturnGeneratedKey("ID", member, "ID");
+        return (int)jdbcEnhancement.insertAndReturnGeneratedKey("id", member, "ID");
     }
 
     public void deleteMemberById(int id) {

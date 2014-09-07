@@ -16,6 +16,7 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    @Transactional(readOnly = true)
     public User getUser(int id) {
         return userDao.getUserById(id);
     }

@@ -37,18 +37,18 @@ public class RowMapperFactory {
         this.metaData = new DatabaseMetaData(jdbcTemplate);
     }
 
-    public <T> RowMapper<T> createRowMapper(QueryKey<T> queryKey) {
-        Class<T> clazz = queryKey.getClazz();
-        String sql = queryKey.getSql();
+    public <T> RowMapper<T> createRowMapper(QueryInformation<T> queryInformation) {
+        Class<T> clazz = queryInformation.getClazz();
+        String sql = queryInformation.getSql();
 
         RowMapper<T> rowMapper = simpleTypes.get(clazz);
         if (rowMapper != null) {
             return rowMapper;
         }
 
-        rowMapper = rowMapperCache.get(queryKey);
+        rowMapper = rowMapperCache.get(queryInformation);
         if (rowMapper == null) {
-            TableMetaData sqlColumns = metaData.getSqlColumns(sql);
+            TableMetaData sqlColumns = metaData.getSqlColumns(sql, queryInformation.getParameters());
             final List<String> columns = sqlColumns.getColumns();
             final Map<String, Field> map = newHashMap();
             for (String column : columns) {
@@ -63,7 +63,7 @@ public class RowMapperFactory {
             }
 
             rowMapper = new ReflectRowMapper<T>(clazz, map);
-            rowMapperCache.add(queryKey, rowMapper);
+            rowMapperCache.add(queryInformation, rowMapper);
         }
 
         return rowMapper;

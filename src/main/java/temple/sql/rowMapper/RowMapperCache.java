@@ -12,13 +12,13 @@ import static com.google.common.collect.Maps.newConcurrentMap;
  * Time: 10:15 AM
  */
 class RowMapperCache {
-    private static Map<QueryKey, RowMapper> map = newConcurrentMap();
+    private static Map<QueryInformation, RowMapper> map = newConcurrentMap();
 
-    public <T> void add(QueryKey<T> key, RowMapper<T> mapper) {
+    public <T> void add(QueryInformation<T> key, RowMapper<T> mapper) {
         map.put(key, mapper);
     }
 
-    public <T> RowMapper<T> get(QueryKey<T> key) {
+    public <T> RowMapper<T> get(QueryInformation<T> key) {
         return (RowMapper<T>)map.get(key);
     }
 }

@@ -10,17 +10,17 @@ import temple.sql.annotation.Table;
  */
 @Table("T_USER")
 public class User {
-    private int id;
+    private Integer id;
     private String name;
     private String password;
 
     private String confirmPassword;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

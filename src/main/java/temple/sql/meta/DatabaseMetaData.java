@@ -36,14 +36,14 @@ public class DatabaseMetaData {
         return getSqlColumns("SELECT * FROM " + table);
     }
 
-    public TableMetaData getSqlColumns(String sql) {
+    public TableMetaData getSqlColumns(String sql, Object... parameters) {
         TableMetaData cachedTableMeta = getCachedTableMeta(sql);
         if (cachedTableMeta != null) {
             return cachedTableMeta;
         }
 
         String selectSql = pageCreator != null ? pageCreator.createPage(sql, 0, 1) : sql;
-        TableMetaData values = jdbcTemplate.query(selectSql, extractor);
+        TableMetaData values = jdbcTemplate.query(selectSql, extractor, parameters);
         cacheTableMeta(sql, values);
 
         return values;

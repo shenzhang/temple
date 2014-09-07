@@ -1,5 +1,6 @@
 package temple.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import temple.sql.annotation.Table;
 
 import java.util.Date;
@@ -12,34 +13,41 @@ import java.util.List;
  */
 @Table("T_MEMBER")
 public class Member {
-    private int id;
+    private Integer id;
     private String lastName;
     private String firstName;
     private String chineseLastName;
     private String chineseFirstName;
     private String introducerName;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date membershipAcquisitionDate;
     private String membershipAcquisitionTempleCode;
     private String membershipAcquisitionCityCode;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date memberPurificationDate;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date memberFamilyTempleDate;
     private String masterName;
     private String guarantorName;
     private int groupNumber;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date dob;
     private int lastUpdateUserId;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date lastUpdateDate;
 
     // member contact
     private MemberContact memberContact;
     // member notes
     private List<MemberNote> memberNotes;
+    // last modify user
+    private User lastModifyUser;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -185,5 +193,13 @@ public class Member {
 
     public void setMemberNotes(List<MemberNote> memberNotes) {
         this.memberNotes = memberNotes;
+    }
+
+    public User getLastModifyUser() {
+        return lastModifyUser;
+    }
+
+    public void setLastModifyUser(User lastModifyUser) {
+        this.lastModifyUser = lastModifyUser;
     }
 }
