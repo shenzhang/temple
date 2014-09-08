@@ -1,6 +1,5 @@
 package temple.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import temple.sql.annotation.Table;
 
 import java.util.Date;
@@ -19,21 +18,16 @@ public class Member {
     private String chineseLastName;
     private String chineseFirstName;
     private String introducerName;
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date membershipAcquisitionDate;
     private String membershipAcquisitionTempleCode;
     private String membershipAcquisitionCityCode;
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date memberPurificationDate;
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date memberFamilyTempleDate;
     private String masterName;
     private String guarantorName;
     private int groupNumber;
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date dob;
     private int lastUpdateUserId;
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date lastUpdateDate;
 
     // member contact

@@ -1,7 +1,5 @@
 package temple.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 
 /**
@@ -12,7 +10,6 @@ import java.util.Date;
 public class SearchMemberInfo {
     private String name;
     private String introducerName;
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date acquisitionDate;
 
     public String getName() {
