@@ -2,6 +2,7 @@ package temple.service;
 
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import temple.dao.CityDao;
@@ -71,7 +72,21 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Member member) {
+        updateLastModifyInformation(member);
 
+        memberDao.updateMember(member);
+
+        Integer memberId = member.getId();
+        if (member.getMemberContact() != null) {
+                memberContactDao.updateMemberContact(memberId, member.getMemberContact());
+        }
+
+        memberNoteDao.deleteAllMemberNotes(memberId);
+        if (member.getMemberNotes() != null) {
+            for (MemberNote note : member.getMemberNotes()) {
+                memberNoteDao.addMemberNote(memberId, note);
+            }
+        }
     }
 
     @Transactional(readOnly = true)
@@ -87,6 +102,7 @@ public class MemberService {
 
     private void updateLastModifyInformation(Member member) {
         member.setLastUpdateDate(new Date());
+        member.setLastUpdateUserId(Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
     @Transactional

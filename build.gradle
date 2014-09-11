@@ -51,7 +51,9 @@ dependencies {
             "org.springframework:spring-webmvc:$springVersion",
             "org.springframework:spring-jdbc:$springVersion",
             'org.springframework.security:spring-security-web:3.2.5.RELEASE',
-            'org.springframework.security:spring-security-config:3.2.5.RELEASE'
+            'org.springframework.security:spring-security-config:3.2.5.RELEASE',
+
+            'org.hibernate:hibernate-validator:5.1.2.Final'
     )
 
     providedCompile(

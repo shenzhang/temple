@@ -7,7 +7,7 @@
         <div class="col-lg-12">
             <form:form class="form-inline" role="form" method="post" action="search" commandName="info">
                 <div class="form-group">
-                    <label for="name">Member Name:</label>
+                    <label for="name">Last Chiness Name:</label>
                     <form:input type="text" class="form-control" id="name" path="name"/>
                 </div>
 

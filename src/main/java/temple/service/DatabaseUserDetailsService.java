@@ -37,7 +37,7 @@ public class DatabaseUserDetailsService implements UserDetailsService, Initializ
             throw new UsernameNotFoundException(username);
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(), true, true,
+        return new org.springframework.security.core.userdetails.User(username, user.getPassword(), true, true,
                 true, true, newArrayList(authorities));
     }
 

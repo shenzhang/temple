@@ -1,7 +1,12 @@
 package temple.model;
 
 import temple.sql.annotation.Table;
+import temple.util.lunar.Lunar;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -13,19 +18,31 @@ import java.util.List;
 @Table("T_MEMBER")
 public class Member {
     private Integer id;
+    @Size(message = "Last Name is required", min = 1)
     private String lastName;
+    @Size(message = "First Name is required", min = 1)
     private String firstName;
+    @Size(message = "Chinese Last Name is required", min = 1)
     private String chineseLastName;
+    @Size(message = "Chinese First Name is required", min = 1)
     private String chineseFirstName;
+    @Size(message = "Introducer Name is required", min = 1)
     private String introducerName;
+    @NotNull(message = "Membership Acquisition Date is required")
     private Date membershipAcquisitionDate;
+    @Size(message = "Membership Acquisition Temple is required", min = 1)
     private String membershipAcquisitionTempleCode;
     private String membershipAcquisitionCityCode;
     private Date memberPurificationDate;
     private Date memberFamilyTempleDate;
+    @Size(message = "Master Name is required", min = 1)
     private String masterName;
+    @Size(message = "Guarantor Name is required", min = 1)
     private String guarantorName;
-    private int groupNumber;
+    @NotNull(message = "Group Number is required")
+    @Min(0)
+    private Integer groupNumber;
+    @NotNull(message = "DOB is required")
     private Date dob;
     private int lastUpdateUserId;
     private Date lastUpdateDate;
@@ -91,6 +108,17 @@ public class Member {
         return membershipAcquisitionDate;
     }
 
+    public String getLunarDate() {
+        if (membershipAcquisitionDate == null) {
+            return null;
+        }
+
+        Calendar now = Calendar.getInstance();
+        now.setTime(membershipAcquisitionDate);
+        Lunar lunar = new Lunar(now);
+        return lunar.toString();
+    }
+
     public void setMembershipAcquisitionDate(Date membershipAcquisitionDate) {
         this.membershipAcquisitionDate = membershipAcquisitionDate;
     }
@@ -143,11 +171,11 @@ public class Member {
         this.guarantorName = guarantorName;
     }
 
-    public int getGroupNumber() {
+    public Integer getGroupNumber() {
         return groupNumber;
     }
 
-    public void setGroupNumber(int groupNumber) {
+    public void setGroupNumber(Integer groupNumber) {
         this.groupNumber = groupNumber;
     }
 

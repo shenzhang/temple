@@ -43,15 +43,27 @@
 
                     <tr>
                         <td style="width:150px">Chinese Last Name:</td>
-                        <td><form:input path="chineseLastName"/></td>
+                        <td>
+                            <form:input path="chineseLastName"/>
+                            <form:errors path="chineseLastName" cssClass="error"/>
+                        </td>
                         <td style="width:260px">Chinese First Name:</td>
-                        <td><form:input path="chineseFirstName"/></td>
+                        <td>
+                            <form:input path="chineseFirstName"/>
+                            <form:errors path="chineseFirstName" cssClass="error"/>
+                        </td>
                     </tr>
                     <tr>
                         <td>English First Name:</td>
-                        <td><form:input path="firstName"/></td>
+                        <td>
+                            <form:input path="firstName"/>
+                            <form:errors path="firstName" cssClass="error"/>
+                        </td>
                         <td>English Last Name:</td>
-                        <td><form:input path="lastName"/></td>
+                        <td>
+                            <form:input path="lastName"/>
+                            <form:errors path="lastName" cssClass="error"/>
+                        </td>
                     </tr>
 
                     <tr><td colspan="4" class="td-border-bottom"></td></tr>
@@ -69,36 +81,124 @@
 
                     <tr>
                         <td>DOB:</td>
-                        <td><form:input class="datepicker" id="dob" path="dob"/></td>
+                        <td>
+                            <form:input class="datepicker" id="dob" path="dob"/>
+                            <form:errors path="dob" cssClass="error"/>
+                        </td>
                         <td>Membership Acquisition Template:</td>
                         <td>
                             <form:select path="membershipAcquisitionTempleCode">
                                 <form:options items="${allTemples}" itemValue="membershipAcquisitionTempleCode"
                                               itemLabel="membershipAcquisitionTempleName"/>
                             </form:select>
+                            <form:errors path="membershipAcquisitionTempleCode" cssClass="error"/>
                         </td>
                     </tr>
 
                     <tr>
                         <td>Home:</td>
-                        <td></td>
+                        <td>
+                            <form:input path="memberContact.homePhone"/>
+                            <form:errors path="memberContact.homePhone" cssClass="error"/>
+                        </td>
                         <td>Membership Acquisition Date:</td>
-                        <td></td>
+                        <td>
+                            <form:input class="datepicker" id="membershipAcquisitionDate" path="membershipAcquisitionDate"/>
+                            <form:errors path="membershipAcquisitionDate" cssClass="error"/>
+                        </td>
                     </tr>
 
                     <tr>
                         <td>Mobile:</td>
-                        <td></td>
+                        <td>
+                            <form:input path="memberContact.mobilePhone"/>
+                            <form:errors path="memberContact.mobilePhone" cssClass="error"/>
+                        </td>
                         <td>Membership Acquisition Lunar Date:</td>
-                        <td></td>
+                        <td>
+
+                        </td>
                     </tr>
 
                     <tr>
                         <td>Email:</td>
-                        <td></td>
+                        <td>
+                            <form:input path="memberContact.email"/>
+                        </td>
                         <td>Membership Acquisition City:</td>
-                        <td></td>
+                        <td>
+                            <form:select path="membershipAcquisitionCityCode">
+                                <form:options items="${allCities}" itemValue="membershipAcquisitionCityCode"
+                                              itemLabel="membershipAcquisitionCityName"/>
+                            </form:select>
+                        </td>
                     </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                        <td>Master:</td>
+                        <td>
+                            <form:input path="masterName"/>
+                            <form:errors path="masterName" cssClass="error"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                        <td>Introducer:</td>
+                        <td>
+                            <form:input path="introducerName"/>
+                            <form:errors path="introducerName" cssClass="error"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                        <td>Guarantor:</td>
+                        <td>
+                            <form:input path="guarantorName"/>
+                            <form:errors path="guarantorName" cssClass="error"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                        <td>Member Purification Date:</td>
+                        <td>
+                            <form:input class="datepicker" id="memberPurificationDate" path="memberPurificationDate"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                        <td>Member Family Temple Date:</td>
+                        <td>
+                            <form:input class="datepicker" id="memberFamilyTempleDate" path="memberFamilyTempleDate"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+
+                        <td>Member Group Number:</td>
+                        <td>
+                            <form:input path="groupNumber"/>
+                            <form:errors path="groupNumber" cssClass="error"/>
+                        </td>
+                    </tr>
+
+                    <tr><td colspan="4" class="td-border-bottom"></td></tr>
 
                     <tr>
                         <td colspan="4">
