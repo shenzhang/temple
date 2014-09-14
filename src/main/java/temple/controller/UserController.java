@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -23,7 +23,7 @@ import temple.service.UserService;
  * Time: 9:15 PM
  */
 @Controller
-public class UserController {
+public class UserController extends TempleController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private static final String SEARCH_USER_MENU = "searchUser";
 
@@ -47,15 +47,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/searchUser", method = RequestMethod.GET)
-    public String show(ModelMap model) {
+    public String show(Model model) {
         return "searchUser";
     }
 
     @RequestMapping(value = "/searchUser", method = RequestMethod.POST)
-    public String search(@ModelAttribute("info") SearchUserInfo searchUserInfo, BindingResult errors, ModelMap model) {
+    public String search(@ModelAttribute("info") SearchUserInfo searchUserInfo, BindingResult errors, Model model) {
         validateSearchUserInfo(searchUserInfo, errors);
         if (errors.hasErrors()) {
-            model.remove("info");
             return "searchUser";
         }
 
@@ -64,7 +63,7 @@ public class UserController {
         if (user == null) {
             message(model, false, "No Result");
         } else {
-            model.put("user", user);
+            model.addAttribute("user", user);
             message(model, true, "Search Success");
         }
 
@@ -72,17 +71,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
-    public String delete(int userId, ModelMap model) {
+    public String delete(int userId) {
         userService.deleteUser(userId);
         return "redirect:searchUser";
     }
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
-    public String addUser(@ModelAttribute("newUser") User user, BindingResult result, ModelMap model, RedirectAttributes redirectAttributes) {
+    public String addUser(@ModelAttribute("newUser") User user, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         validateNewUser(user, result);
 
         if (result.hasErrors()) {
-            model.put("showDialog", true);
+            model.addAttribute("showDialog", true);
             return "searchUser";
         } else {
             log.info("Add user: {}", user.toString());
@@ -94,7 +93,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute("user") User user, BindingResult errors, ModelMap model) {
+    public String updateUser(@ModelAttribute("user") User user, BindingResult errors, Model model) {
         if (user.getId() <= 0) {
             errors.rejectValue("id", null, "Should provide user id");
         }
@@ -129,15 +128,5 @@ public class UserController {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             errors.rejectValue("confirmPassword", null, "Confirmed password is different with password");
         }
-    }
-
-    private void message(ModelMap model, boolean success, String content) {
-        model.put("messageStyle", success ? "success" : "failed");
-        model.put("messageContent", content);
-    }
-
-    private void message(RedirectAttributes model, boolean success, String content) {
-        model.addFlashAttribute("messageStyle", success ? "success" : "failed");
-        model.addFlashAttribute("messageContent", content);
     }
 }

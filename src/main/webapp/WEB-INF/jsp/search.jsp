@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form:form class="form-inline" role="form" method="post" action="search" commandName="info">
+            <form:form class="form-inline" role="form" method="post" action="/search" commandName="info">
                 <div class="form-group">
                     <label for="name">Last Chiness Name:</label>
                     <form:input type="text" class="form-control" id="name" path="name"/>
@@ -16,8 +16,8 @@
                     <form:input class="form-control" type="text" id="introducerName" path="introducerName"/>
                 </div>
                 <div class="form-group">
-                    <label for="acquisitionDate">Acquisition Date:</label>
-                    <form:input type="text" class="form-control datepicker" id="acquisitionDate" path="acquisitionDate"/>
+                    <label for="acquisitionYear">Acquisition Date:</label>
+                    <form:input type="text" class="form-control" id="acquisitionYear" path="acquisitionYear" cssStyle="width:100px"/>
                 </div>
 
                 <button type="submit" id="btnMemberSearch" class="btn btn-primary">Search</button>
@@ -68,11 +68,15 @@
 <script>
     $(function () {
         $('#btnMemberSearch').click(function() {
-            if (!temple.validateDate($('#acquisitionDate'), 'Acquisition Date')) return false;
+            var year = $('#acquisitionYear').val();
+            if (year && !(/^\d{4}$/.test(year))) {
+                window.alert("Acquisition Date should be a year with 4 digits")
+                return false;
+            }
         });
     });
 
     function editMember(memberId) {
-        window.location.href = "editMember?memberId=" + memberId;
+        window.location.href = "/members/" + memberId;
     }
 </script>

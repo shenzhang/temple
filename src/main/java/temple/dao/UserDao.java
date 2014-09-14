@@ -14,11 +14,10 @@ import static com.google.common.collect.Lists.newArrayList;
 @Repository
 public class UserDao extends AutowiredJdbcEnhancementDaoSupport {
     public User getUserById(int id) {
-        return jdbcEnhancement.queryForObject(User.class, "SELECT * FROM T_USER WHERE ID = ?", id);
+        return jdbcEnhancement.queryForObject(User.class, "SELECT * FROM T_USER WHERE ID = ? AND ENABLED = ?", id, true);
     }
 
     public void updateUserById(int id, User user) {
-//        jdbcTemplate.update("UPDATE T_USER SET NAME = ?, PASSWORD = ? WHERE ID = ?", user.getName(), user.getPassword(), user.getId());
         jdbcEnhancement.update(user, newArrayList("id"), "ID = ?", id);
     }
 
@@ -27,6 +26,6 @@ public class UserDao extends AutowiredJdbcEnhancementDaoSupport {
     }
 
     public void deleteUserById(int id) {
-        jdbcTemplate.update("DELETE FROM T_USER WHERE ID = ?", id);
+        jdbcTemplate.update("UPDATE T_USER SET ENABLED = ? WHERE ID = ?", false, id);
     }
 }

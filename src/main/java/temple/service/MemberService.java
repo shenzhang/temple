@@ -52,7 +52,7 @@ public class MemberService {
     }
 
     @Transactional
-    public long addMember(Member member) {
+    public int addMember(Member member) {
         updateLastModifyInformation(member);
 
         int memberId = memberDao.addMember(member);
@@ -78,7 +78,12 @@ public class MemberService {
 
         Integer memberId = member.getId();
         if (member.getMemberContact() != null) {
+            member.getMemberContact().setMemberId(memberId);
+            if (memberContactDao.getMemberContact(memberId) != null) {
                 memberContactDao.updateMemberContact(memberId, member.getMemberContact());
+            } else {
+                memberContactDao.addMemberContact(memberId, member.getMemberContact());
+            }
         }
 
         memberNoteDao.deleteAllMemberNotes(memberId);

@@ -2,7 +2,7 @@ package temple.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,26 +19,26 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/search")
-public class SearchMemberController {
+public class SearchMemberController extends TempleController {
     private static final String SEARCH_MENU = "search";
 
     @Autowired
     private MemberService memberService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String show(ModelMap model) {
-        model.put("menu", SEARCH_MENU);
-        model.put("info", new SearchMemberInfo());
+    public String show(Model model) {
+        model.addAttribute("menu", SEARCH_MENU);
+        model.addAttribute("info", new SearchMemberInfo());
         return "search";
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String search(@ModelAttribute("info") SearchMemberInfo searchMemberInfo, ModelMap model) {
-        model.put("menu", SEARCH_MENU);
-        model.put("bannerSearchName", searchMemberInfo.getName());
+    public String search(@ModelAttribute("info") SearchMemberInfo searchMemberInfo, Model model) {
+        model.addAttribute("menu", SEARCH_MENU);
+        model.addAttribute("bannerSearchName", searchMemberInfo.getName());
 
         List<Member> list = memberService.searchMember(searchMemberInfo);
-        model.put("result", list);
+        model.addAttribute("result", list);
 
         return "search";
     }

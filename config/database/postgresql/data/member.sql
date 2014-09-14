@@ -34,6 +34,9 @@ LAST_UPDATE_DATE
 '2014-8-2'
 );
 
+insert into t_member_note(member_id, note) values(1, 'note 1');
+insert into t_member_note(member_id, note) values(1, 'note 12, exmple exmple exmple exmple exmple exmple exmple exmple exmple exmple exmple exmple');
+
 INSERT INTO T_MEMBER(
 LAST_NAME,
 FIRST_NAME,

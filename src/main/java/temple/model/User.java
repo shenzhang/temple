@@ -13,6 +13,7 @@ public class User {
     private Integer id;
     private String name;
     private String password;
+    private boolean enabled = true;
 
     private String confirmPassword;
 
@@ -46,6 +47,14 @@ public class User {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

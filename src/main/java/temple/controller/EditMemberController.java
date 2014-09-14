@@ -1,5 +1,7 @@
 package temple.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,9 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import temple.model.City;
 import temple.model.Member;
 import temple.model.MemberContact;
@@ -29,8 +31,10 @@ import static com.google.common.base.Strings.isNullOrEmpty;
  * Time: 10:52 PM
  */
 @Controller
-@RequestMapping("/editMember")
-public class EditMemberController {
+@RequestMapping("/members/{memberId}")
+public class EditMemberController extends TempleController {
+    private static final Logger LOG = LoggerFactory.getLogger(EditMemberController.class);
+
     @Autowired
     private MemberService memberService;
 
@@ -68,7 +72,7 @@ public class EditMemberController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getMember(@RequestParam("memberId")int memberId, Model model) {
+    public String getMember(@PathVariable("memberId")int memberId, Model model) {
         Member member = memberService.getMemberById(memberId);
         model.addAttribute("member", member);
 
@@ -76,11 +80,17 @@ public class EditMemberController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String editMember(@ModelAttribute("member") @Validated Member member, BindingResult errors) {
+    public String editMember(@ModelAttribute("member") @Validated Member member, BindingResult errors, Model model) {
         if (errors.hasErrors()) {
-            return null;
+            return "editMember";
         }
-        memberService.updateMember(member);
-        return "redirect:search";
+
+        try {
+            memberService.updateMember(member);
+            message(model, true, "Update member success");
+        } catch (Exception e) {
+            LOG.error("Update member error", e);
+        }
+        return "editMember";
     }
 }

@@ -28,6 +28,8 @@ public class ReflectRowMapper<T> implements RowMapper<T> {
         map.put(long.class, new DefaultResultSetValueExtractor("getLong"));
         map.put(Long.class, new DefaultResultSetValueExtractor("getLong"));
         map.put(Date.class, new DateValueExtractor());
+        map.put(Boolean.class, new DefaultResultSetValueExtractor("getBoolean"));
+        map.put(boolean.class, new DefaultResultSetValueExtractor("getBoolean"));
     }
 
     private Class<T> clazz;

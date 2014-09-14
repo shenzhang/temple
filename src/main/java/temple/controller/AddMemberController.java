@@ -1,5 +1,7 @@
 package temple.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import temple.model.City;
 import temple.model.Member;
 import temple.model.MemberContact;
@@ -28,8 +31,10 @@ import static com.google.common.base.Strings.isNullOrEmpty;
  * Time: 10:52 PM
  */
 @Controller
-@RequestMapping("/addMember")
-public class AddMemberController {
+@RequestMapping("/members/new")
+public class AddMemberController extends TempleController {
+    private static final Logger LOG = LoggerFactory.getLogger(AddMemberController.class);
+
     @Autowired
     private MemberService memberService;
 
@@ -78,12 +83,19 @@ public class AddMemberController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String addMember(@ModelAttribute("member") @Validated Member member, BindingResult errors) {
+    public String addMember(@ModelAttribute("member") @Validated Member member, BindingResult errors, RedirectAttributes redirectAttributes) {
         if (errors.hasErrors()) {
-            return null;
+            return "addMember";
         }
 
-        memberService.addMember(member);
-        return "redirect:search";
+        try {
+            int memberId = memberService.addMember(member);
+            message(redirectAttributes, true, "Add member success");
+
+            return "redirect:/members/" + memberId;
+        } catch (Exception e) {
+            LOG.error("Add member error", e);
+            return "addMember";
+        }
     }
 }

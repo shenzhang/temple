@@ -9,8 +9,17 @@ import temple.sql.annotation.Table;
  */
 @Table("T_MEMBER_NOTE")
 public class MemberNote {
+    private Integer noteId;
     private int memberId;
     private String note;
+
+    public Integer getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(Integer noteId) {
+        this.noteId = noteId;
+    }
 
     public int getMemberId() {
         return memberId;

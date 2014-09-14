@@ -1,5 +1,6 @@
 package temple.dao;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 import temple.model.Member;
 import temple.model.SearchMemberInfo;
@@ -44,7 +45,13 @@ public class MemberDao extends AutowiredJdbcEnhancementDaoSupport {
             if (!isNullOrEmpty(info.getIntroducerName())) {
                 appender.append(" AND M.INTRODUCER_NAME = ? ", info.getIntroducerName());
             }
+            if (info.getAcquisitionYear() != null) {
+                DateTime begin = new DateTime(info.getAcquisitionYear(), 1, 1, 0, 0);
+                DateTime end = begin.plusYears(1);
+                appender.append(" AND M.MEMBERSHIP_ACQUISITION_DATE >= ? AND M.MEMBERSHIP_ACQUISITION_DATE < ?", begin.toDate(), end.toDate());
+            }
         }
+        appender.append(" ORDER BY M.ID");
         return appender.queryForList(Member.class);
     }
 }

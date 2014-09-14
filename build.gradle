@@ -53,11 +53,13 @@ dependencies {
             'org.springframework.security:spring-security-web:3.2.5.RELEASE',
             'org.springframework.security:spring-security-config:3.2.5.RELEASE',
 
-            'org.hibernate:hibernate-validator:5.1.2.Final'
+            'org.hibernate:hibernate-validator:5.1.2.Final',
+            'joda-time:joda-time:2.4',
+            'com.fasterxml.jackson.core:jackson-databind:2.4.2'
     )
 
     providedCompile(
-            'javax.servlet:javax.servlet-api:3.1.0',
+            'javax.servlet:servlet-api:2.5',
             'javax.servlet.jsp:jsp-api:2.2'
     )
 
@@ -71,6 +73,10 @@ dependencies {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
+}
+
+jettyRun {
+    contextPath = ''
 }
 
 // build and deploy the application

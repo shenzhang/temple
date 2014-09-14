@@ -31,15 +31,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form:form id="memberForm" commandName="member" method="post" action="addMember">
+            <form:form id="memberForm" commandName="member" method="post">
                 <table style="width:100%; border-collapse: collapse;">
-                    <tr>
+                    <tr class="table-title-row">
                         <td colspan="4" class="border-bottom">
                             Add Member
                         </td>
                     </tr>
-
-                    <tr><td colspan="4" class="td-border-bottom"></td></tr>
 
                     <tr>
                         <td style="width:150px">Chinese Last Name:</td>
@@ -66,9 +64,7 @@
                         </td>
                     </tr>
 
-                    <tr><td colspan="4" class="td-border-bottom"></td></tr>
-
-                    <tr>
+                    <tr class="table-title-row">
                         <td colspan="2">
                             Member Details
                         </td>
@@ -76,8 +72,6 @@
                             Temple Details
                         </td>
                     </tr>
-
-                    <tr><td colspan="4" class="td-border-bottom"></td></tr>
 
                     <tr>
                         <td>DOB:</td>
@@ -135,8 +129,10 @@
                     </tr>
 
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td rowspan="4">Address:</td>
+                        <td>
+                            <form:input path="memberContact.addressLine1" placeholder="Address Line1"/>
+                        </td>
 
                         <td>Master:</td>
                         <td>
@@ -146,8 +142,9 @@
                     </tr>
 
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <form:input path="memberContact.addressLine2" placeholder="Address Line2"/>
+                        </td>
 
                         <td>Introducer:</td>
                         <td>
@@ -157,8 +154,9 @@
                     </tr>
 
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <form:input path="memberContact.suburb" placeholder="Suburb"/>
+                        </td>
 
                         <td>Guarantor:</td>
                         <td>
@@ -168,8 +166,10 @@
                     </tr>
 
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <form:input path="memberContact.state" cssStyle="width: 100px" placeholder="State"/>
+                            <form:input path="memberContact.postcode" cssStyle="width: 100px;" placeholder="Postcode"/>
+                        </td>
 
                         <td>Member Purification Date:</td>
                         <td>
@@ -198,15 +198,11 @@
                         </td>
                     </tr>
 
-                    <tr><td colspan="4" class="td-border-bottom"></td></tr>
-
-                    <tr>
+                    <tr class="table-title-row">
                         <td colspan="4">
                             Member Notes
                         </td>
                     </tr>
-
-                    <tr><td colspan="4" class="td-border-bottom"></td></tr>
 
                     <tr>
                         <td colspan="4">

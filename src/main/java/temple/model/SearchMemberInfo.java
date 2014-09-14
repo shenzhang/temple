@@ -1,7 +1,5 @@
 package temple.model;
 
-import java.util.Date;
-
 /**
  * User: shenzhang
  * Date: 8/21/14
@@ -10,7 +8,7 @@ import java.util.Date;
 public class SearchMemberInfo {
     private String name;
     private String introducerName;
-    private Date acquisitionDate;
+    private Integer acquisitionYear;
 
     public String getName() {
         return name;
@@ -28,11 +26,11 @@ public class SearchMemberInfo {
         this.introducerName = introducerName;
     }
 
-    public Date getAcquisitionDate() {
-        return acquisitionDate;
+    public Integer getAcquisitionYear() {
+        return acquisitionYear;
     }
 
-    public void setAcquisitionDate(Date acquisitionDate) {
-        this.acquisitionDate = acquisitionDate;
+    public void setAcquisitionYear(Integer acquisitionYear) {
+        this.acquisitionYear = acquisitionYear;
     }
 }

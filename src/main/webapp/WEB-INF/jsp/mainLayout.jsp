@@ -9,16 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chung Zhu Temple System</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/datepicker.css">
-    <link rel="stylesheet" href="css/temple.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/datepicker.css">
+    <link rel="stylesheet" href="/css/temple.css">
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/lodash.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/lodash.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap-datepicker.js"></script>
 
-    <script src="js/temple.js"></script>
+    <script src="/js/temple.js"></script>
 </head>
 <body>
 <div>
