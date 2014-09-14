@@ -23,4 +23,10 @@
 	$(function() {
 		$('.datepicker').datepicker().css('width', '100px');
 	});
+
+	temple.template = {};
+	temple.template.noteRowTemplate = _.template('<tr id="note-<%= noteId %>"><td><span class="note-content"><%- note %></span>' +
+		'<span class="label label-warning btnEditNote" style="cursor: pointer">Edit</span>' +
+		'<span class="label label-danger btnDeleteNote" style="cursor: pointer">Delete</span></td></tr>');
+
 })(window, jQuery);

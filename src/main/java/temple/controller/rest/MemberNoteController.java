@@ -37,13 +37,13 @@ public class MemberNoteController {
         memberNoteService.deleteMemberNote(noteId);
     }
 
-    @RequestMapping(value = "/members/{memberId}/notes/${noteId}", method = RequestMethod.POST)
-    public void updateNote(@PathVariable("memberId") int memberId, @PathVariable("noteId") int noteId, @RequestParam(value = "note", required = false) String note) {
+    @RequestMapping(value = "/members/{memberId}/notes/{noteId}", method = RequestMethod.POST)
+    public MemberNote updateNote(@PathVariable("memberId") int memberId, @PathVariable("noteId") int noteId, @RequestParam(value = "note", required = false) String note) {
         MemberNote memberNote = new MemberNote();
         memberNote.setMemberId(memberId);
         memberNote.setNoteId(noteId);
         memberNote.setNote(note);
 
-        memberNoteService.updateMemberNote(memberNote);
+        return memberNoteService.updateMemberNote(memberNote);
     }
 }

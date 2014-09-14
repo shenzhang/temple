@@ -277,32 +277,46 @@
     $(function() {
         var memberId = ${member.id};
 
-        function addNote() {
+        function addNoteHandler() {
             $('#noteDialogTitle').text('Add Note');
+            $('#noteContent').val('');
 
             var button = $('#btnOk');
-            button.off('click', '**');
+            button.off('click');
             button.on('click', function() {
                 var note = $('#noteContent').val();
                 var url = '/members/' + memberId + '/notes';
                 $.post(url, {
                     note: note
                 }, function(data) {
-                    console.log(data);
+                    appendNote2Table(data);
+                    $('#noteDialog').modal('hide');
                 }, 'json');
 
             });
             $('#noteDialog').modal('show');
         }
 
-        function updateNote(noteId, note) {
+        function appendNote2Table(note) {
+            var newRow = $(temple.template.noteRowTemplate(note));
+            $('#noteTable').append(newRow);
+        }
+
+        function updateNote(noteId, note, $row) {
             $('#noteDialogTitle').text('Edit Note');
             $('#noteContent').val(note);
 
             var button = $('#btnOk');
-            button.off('click', '**');
+            button.off('click');
             button.on('click', function() {
-
+                var newNote = $('#noteContent').val();
+                var url = '/members/' + memberId + '/notes/' + noteId;
+                $.post(url, {
+                    note: newNote
+                }, function(data) {
+                    $row.find('.note-content').text(newNote);
+                    $('#noteDialog').modal('hide');
+                }, 'json');
             });
             $('#noteDialog').modal('show');
         }
@@ -322,23 +336,25 @@
             });
         }
 
-        $('#btnAddNote').click(function() {
-            addNote();
-        });
-
-        $('#noteTable .btnEditNote').click(function() {
+        function editNoteHandler() {
             var $span = $(this);
             var $tr = $(this).parent().parent();
             var noteId = $tr.attr('id').substring(5);
             var note = $tr.find('.note-content').text();
-            updateNote(noteId, $.trim(note));
-        });
+            updateNote(noteId, $.trim(note), $tr);
+        }
 
-        $('#noteTable .btnDeleteNote').click(function() {
+        function deleteNoteHandler() {
             var $span = $(this);
             var $tr = $(this).parent().parent();
             var noteId = $tr.attr('id').substring(5);
             deleteNote(noteId, $tr);
-        });
+        }
+
+        $('#noteTable .btnEditNote').click(editNoteHandler);
+        $('#noteTable .btnDeleteNote').click(deleteNoteHandler);
+
+        $('#btnAddNote').click(addNoteHandler);
+
     });
 </script>

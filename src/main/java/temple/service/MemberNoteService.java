@@ -25,6 +25,7 @@ public class MemberNoteService {
     }
 
     public MemberNote updateMemberNote(MemberNote note) {
-        return null;
+        memberNoteDao.updateMemberNote(note.getNoteId(), note);
+        return memberNoteDao.getMemberNote(note.getNoteId());
     }
 }
