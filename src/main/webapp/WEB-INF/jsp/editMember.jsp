@@ -48,7 +48,7 @@
                 <table style="width:100%; border-collapse: collapse;">
                     <tr class="table-title-row">
                         <td colspan="4" class="border-bottom">
-                            Edit Member
+                            Edit Member (Member Id: ${member.id})
                             <form:hidden path="id"/>
                         </td>
                     </tr>
