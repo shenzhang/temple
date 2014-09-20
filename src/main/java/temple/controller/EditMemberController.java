@@ -19,6 +19,7 @@ import temple.model.City;
 import temple.model.Member;
 import temple.model.MemberContact;
 import temple.model.Temple;
+import temple.service.MemberNoteService;
 import temple.service.MemberService;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class EditMemberController extends TempleController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MemberNoteService memberNoteService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -81,6 +84,8 @@ public class EditMemberController extends TempleController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String editMember(@ModelAttribute("member") @Validated Member member, BindingResult errors, Model model) {
+        retrieveMemberNotes(member);
+
         if (errors.hasErrors()) {
             return "editMember";
         }
@@ -92,5 +97,11 @@ public class EditMemberController extends TempleController {
             LOG.error("Update member error", e);
         }
         return "editMember";
+    }
+
+    private void retrieveMemberNotes(Member member) {
+        if (member != null || member.getId() != null) {
+            member.setMemberNotes(memberNoteService.listMemberNotes(member.getId()));
+        }
     }
 }

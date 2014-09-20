@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import temple.dao.MemberNoteDao;
 import temple.model.MemberNote;
 
+import java.util.List;
+
 /**
  * User: shenzhang
  * Date: 9/14/14
@@ -27,5 +29,9 @@ public class MemberNoteService {
     public MemberNote updateMemberNote(MemberNote note) {
         memberNoteDao.updateMemberNote(note.getNoteId(), note);
         return memberNoteDao.getMemberNote(note.getNoteId());
+    }
+
+    public List<MemberNote> listMemberNotes(int memberId) {
+        return memberNoteDao.listMemberNotes(memberId);
     }
 }

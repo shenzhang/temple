@@ -10,8 +10,9 @@
 
 	<context:component-scan base-package="temple.controller"/>
 
-	<mvc:annotation-driven conversion-service="conversionService"/>
 	<mvc:default-servlet-handler/>
+	<mvc:annotation-driven conversion-service="conversionService"/>
+
 
 	<!-- conversion service -->
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -44,6 +45,14 @@
 		<property name="messageConverters">
 			<list>
 				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:message/error/error</value>
 			</list>
 		</property>
 	</bean>
