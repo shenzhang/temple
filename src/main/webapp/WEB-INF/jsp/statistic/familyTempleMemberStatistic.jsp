@@ -1,0 +1,1 @@
+member statistic for year

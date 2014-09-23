@@ -27,9 +27,11 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistic <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Search Member</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">New Member</a></li>
+                        <li><a href="/statistic/memberInTotal">1. All member statistic in total</a></li>
+                        <li><a href="/statistic/memberByYear">2. All member statistic for a selected year</a></li>
+                        <li><a href="#">3. All membership acquisition statistic in total listed by years</a></li>
+                        <li><a href="#">4. All purified member statistic in total listed by years</a></li>
+                        <li><a href="#">5. All family temple member statistic in total listed by years</a></li>
                     </ul>
                 </li>
 

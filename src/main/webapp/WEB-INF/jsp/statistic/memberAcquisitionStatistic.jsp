@@ -1,0 +1,1 @@
+member acquisition statistic for year

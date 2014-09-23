@@ -1,0 +1,1 @@
+purified member statistic for year

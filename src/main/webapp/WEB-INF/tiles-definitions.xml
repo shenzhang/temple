@@ -30,4 +30,14 @@
 	<definition name="searchUser" extends="mainLayout">
 		<put-attribute name="content" value="/WEB-INF/jsp/searchUser.jsp" />
 	</definition>
+
+	<!-- statistic -->
+	<definition name="memberStatistic" extends="mainLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/statistic/memberStatistic.jsp" />
+	</definition>
+
+	<definition name="memberStatisticForYear" extends="mainLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/statistic/memberStatisticForYear.jsp" />
+	</definition>
+
 </tiles-definitions>
