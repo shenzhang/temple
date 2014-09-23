@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -18,8 +20,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Member <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li id="search"><a href="/search">Search Member</a></li>
-                        <li id="addMember"><a href="/members/new">New Member</a></li>
+                        <li id="search"><a href="<c:url value='/search'/>">Search Member</a></li>
+                        <li id="addMember"><a href="<c:url value='/members/new'/>">New Member</a></li>
                     </ul>
                 </li>
 
@@ -27,8 +29,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistic <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/statistic/memberInTotal">1. All member statistic in total</a></li>
-                        <li><a href="/statistic/memberByYear">2. All member statistic for a selected year</a></li>
+                        <li><a href="<c:url value='/statistic/memberInTotal'/>">1. All member statistic in total</a></li>
+                        <li><a href="<c:url value='/statistic/memberByYear'/>">2. All member statistic for a selected year</a></li>
                         <li><a href="#">3. All membership acquisition statistic in total listed by years</a></li>
                         <li><a href="#">4. All purified member statistic in total listed by years</a></li>
                         <li><a href="#">5. All family temple member statistic in total listed by years</a></li>
@@ -36,9 +38,9 @@
                 </li>
 
                 <!-- users -->
-                <li id="searchUser"><a href="/searchUser">User Management</a></li>
+                <li id="searchUser"><a href="<c:url value='/searchUser'/>">User Management</a></li>
             </ul>
-            <form class="navbar-form navbar-left" role="search" method="post" action="/search">
+            <form class="navbar-form navbar-left" role="search" method="post" action="<c:url value='/search'/>">
                 <div class="form-group">
                     <input id="menuSearchName" name="name" type="text" class="form-control" placeholder="Last Chiness Name" value="${bannerSearchName}"/>
                 </div>
