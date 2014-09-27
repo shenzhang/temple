@@ -9,7 +9,7 @@
 
         <c:forEach items="${cities}" var="city">
             <th>
-                <c:out value="${city.membershipAcquisitionCityCode}"/>
+                <c:out value="${city.code}"/>
             </th>
         </c:forEach>
 
@@ -25,7 +25,7 @@
 
         <c:forEach items="${cities}" var="city">
             <td>
-                <c:out value="${results['0'][city.membershipAcquisitionCityCode]}"/>
+                <c:out value="${results['0'][city.code]}"/>
             </td>
         </c:forEach>
         <td>
@@ -38,7 +38,7 @@
 
         <c:forEach items="${cities}" var="city">
             <td>
-                <c:out value="${results['1'][city.membershipAcquisitionCityCode]}"/>
+                <c:out value="${results['1'][city.code]}"/>
             </td>
         </c:forEach>
         <td>
@@ -51,7 +51,7 @@
 
         <c:forEach items="${cities}" var="city">
             <td>
-                <c:out value="${results['2'][city.membershipAcquisitionCityCode]}"/>
+                <c:out value="${results['2'][city.code]}"/>
             </td>
         </c:forEach>
         <td>
@@ -64,7 +64,7 @@
 
         <c:forEach items="${cities}" var="city">
             <td>
-                <c:out value="${results['3'][city.membershipAcquisitionCityCode]}"/>
+                <c:out value="${results['3'][city.code]}"/>
             </td>
         </c:forEach>
         <td>

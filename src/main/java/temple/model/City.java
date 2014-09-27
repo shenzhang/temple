@@ -27,4 +27,12 @@ public class City {
     public void setMembershipAcquisitionCityName(String membershipAcquisitionCityName) {
         this.membershipAcquisitionCityName = membershipAcquisitionCityName;
     }
+
+    public String getCode() {
+        return membershipAcquisitionCityCode;
+    }
+
+    public String getName() {
+        return membershipAcquisitionCityName;
+    }
 }

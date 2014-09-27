@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import temple.model.City;
+import temple.model.statistic.YearResult;
 import temple.service.StatisticService;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class StatisticController {
         resultList.add(result);
         for (City city : cities) {
             String cityCode = city.getMembershipAcquisitionCityCode();
-            result.put(cityCode, statisticService.getFamilyTempleCound(cityCode, null, null));
+            result.put(cityCode, statisticService.getFamilyTempleCount(cityCode, null, null));
         }
 
         caculateTotal(resultList, model);
@@ -106,7 +107,7 @@ public class StatisticController {
         resultList.add(result);
         for (City city : cities) {
             String cityCode = city.getMembershipAcquisitionCityCode();
-            result.put(cityCode, statisticService.getFamilyTempleCound(cityCode, begin.toDate(), end.toDate()));
+            result.put(cityCode, statisticService.getFamilyTempleCount(cityCode, begin.toDate(), end.toDate()));
         }
 
         caculateTotal(resultList, model);
@@ -118,16 +119,82 @@ public class StatisticController {
 
     @RequestMapping("/acquisition")
     public String acquisition(Model model) {
+        int beginYear = 1999;
+        int endYear = DateTime.now().getYear();
+
+        List<YearResult> yearResultList = statisticService.getStatisticYearResultListForAcquisitionMember(beginYear, endYear);
+        model.addAttribute("results", yearResultList);
+
+        Map<String, Integer> cityTotal = newHashMap();
+        int totalTotal = 0;
+        List<City> cities = getAllCities();
+        for (City city : cities) {
+            int total = 0;
+            for (YearResult result : yearResultList) {
+                total += result.getResult().get(city.getCode());
+            }
+
+            cityTotal.put(city.getCode(), total);
+            totalTotal += total;
+        }
+
+        model.addAttribute("cityTotal", cityTotal);
+        model.addAttribute("total", totalTotal);
+
         return "acquisition";
     }
 
     @RequestMapping("/purified")
     public String purified(Model model) {
+        int beginYear = 1999;
+        int endYear = DateTime.now().getYear();
+
+        List<YearResult> yearResultList = statisticService.getStatisticYearResultListForPurifiedMember(beginYear, endYear);
+        model.addAttribute("results", yearResultList);
+
+        Map<String, Integer> cityTotal = newHashMap();
+        int totalTotal = 0;
+        List<City> cities = getAllCities();
+        for (City city : cities) {
+            int total = 0;
+            for (YearResult result : yearResultList) {
+                total += result.getResult().get(city.getCode());
+            }
+
+            cityTotal.put(city.getCode(), total);
+            totalTotal += total;
+        }
+
+        model.addAttribute("cityTotal", cityTotal);
+        model.addAttribute("total", totalTotal);
+
         return "purified";
     }
 
     @RequestMapping("/familyTemple")
     public String familyTemple(Model model) {
+        int beginYear = 1999;
+        int endYear = DateTime.now().getYear();
+
+        List<YearResult> yearResultList = statisticService.getStatisticYearResultListForFamilyTemple(beginYear, endYear);
+        model.addAttribute("results", yearResultList);
+
+        Map<String, Integer> cityTotal = newHashMap();
+        int totalTotal = 0;
+        List<City> cities = getAllCities();
+        for (City city : cities) {
+            int total = 0;
+            for (YearResult result : yearResultList) {
+                total += result.getResult().get(city.getCode());
+            }
+
+            cityTotal.put(city.getCode(), total);
+            totalTotal += total;
+        }
+
+        model.addAttribute("cityTotal", cityTotal);
+        model.addAttribute("total", totalTotal);
+
         return "familyTemple";
     }
 

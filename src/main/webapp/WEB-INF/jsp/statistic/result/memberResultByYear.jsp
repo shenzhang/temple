@@ -4,12 +4,12 @@
     <thead>
     <tr>
         <th>
-            Member Statistics
+            Statistics
         </th>
 
         <c:forEach items="${cities}" var="city">
             <th>
-                <c:out value="${city.membershipAcquisitionCityCode}"/>
+                <c:out value="${city.code}"/>
             </th>
         </c:forEach>
 
@@ -20,55 +20,31 @@
     </thead>
 
     <tbody>
-    <tr>
-        <td>No. of people acquired membership</td>
+    <c:forEach var="yearResult" items="${results}">
+        <tr>
+            <td>${yearResult.year}</td>
 
-        <c:forEach items="${cities}" var="city">
+            <c:forEach items="${cities}" var="city">
+                <td>
+                    <c:out value="${yearResult.result[city.code]}"/>
+                </td>
+            </c:forEach>
             <td>
-                <c:out value="${results['0'][city.membershipAcquisitionCityCode]}"/>
+                <c:out value="${yearResult.total}"/>
             </td>
-        </c:forEach>
-        <td>
-            <c:out value="${rowTotalList['0']}"/>
-        </td>
-    </tr>
-
-    <tr>
-        <td>No. of purified members</td>
-
-        <c:forEach items="${cities}" var="city">
-            <td>
-                <c:out value="${results['1'][city.membershipAcquisitionCityCode]}"/>
-            </td>
-        </c:forEach>
-        <td>
-            <c:out value="${rowTotalList['1']}"/>
-        </td>
-    </tr>
-
-    <tr>
-        <td>No. of member with family temple</td>
-
-        <c:forEach items="${cities}" var="city">
-            <td>
-                <c:out value="${results['2'][city.membershipAcquisitionCityCode]}"/>
-            </td>
-        </c:forEach>
-        <td>
-            <c:out value="${rowTotalList['2']}"/>
-        </td>
-    </tr>
+        </tr>
+    </c:forEach>
 
     <tr>
         <td>Total</td>
 
         <c:forEach items="${cities}" var="city">
             <td>
-                <c:out value="${results['3'][city.membershipAcquisitionCityCode]}"/>
+                <c:out value="${cityTotal[city.code]}"/>
             </td>
         </c:forEach>
         <td>
-            <c:out value="${rowTotalList['3']}"/>
+            <c:out value="${total}"/>
         </td>
     </tr>
     </tbody>

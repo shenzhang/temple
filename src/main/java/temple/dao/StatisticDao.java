@@ -52,7 +52,7 @@ public class StatisticDao extends AutowiredJdbcEnhancementDaoSupport {
         return appender.queryForObject(Integer.class);
     }
 
-    public int getFamilyTempleCound(Date begin, Date end, String cityCode) {
+    public int getFamilyTempleCount(Date begin, Date end, String cityCode) {
         JdbcTempalteAppender appender = jdbcEnhancement.createAppender()
                 .append("select count(*) from t_member where member_family_temple_date is not null ");
 
