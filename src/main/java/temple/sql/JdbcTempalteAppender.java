@@ -24,9 +24,10 @@ public class JdbcTempalteAppender {
         this.jdbcTemplate = jdbcTemplateEnhancement.getJdbcTemplate();
     }
 
-    public void append(String sql, Object... parameters) {
+    public JdbcTempalteAppender append(String sql, Object... parameters) {
         this.sql.append(sql);
         this.parameters.addAll(newArrayList(parameters));
+        return this;
     }
 
     String getSql() {

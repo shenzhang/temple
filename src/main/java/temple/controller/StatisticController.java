@@ -1,5 +1,6 @@
 package temple.controller;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,19 +37,35 @@ public class StatisticController {
     public String memberInTotal(Model model) {
         List<City> cities = getAllCities();
 
-        List<Map<String, Integer>> results = newArrayList();
+        List<Map<String, Integer>> resultList = newArrayList();
 
-        for (int i = 0; i < 3; i++) {
-            Map<String, Integer> result = newHashMap();
-            results.add(result);
-
-            for (City city : cities) {
-                result.put(city.getMembershipAcquisitionCityCode(), i);
-            }
+        // No. of people acquired membership
+        Map<String, Integer> result = newHashMap();
+        resultList.add(result);
+        for (City city : cities) {
+            String cityCode = city.getMembershipAcquisitionCityCode();
+            result.put(cityCode, statisticService.getAcquiredMembershipCount(cityCode, null, null));
         }
 
-        caculateTotal(results);
-        model.addAttribute("results", results);
+        // No. of purified members
+        result = newHashMap();
+        resultList.add(result);
+        for (City city : cities) {
+            String cityCode = city.getMembershipAcquisitionCityCode();
+            result.put(cityCode, statisticService.getPurifiedMemberCount(cityCode, null, null));
+        }
+
+        // No. of member with family temple
+        result = newHashMap();
+        resultList.add(result);
+        for (City city : cities) {
+            String cityCode = city.getMembershipAcquisitionCityCode();
+            result.put(cityCode, statisticService.getFamilyTempleCound(cityCode, null, null));
+        }
+
+        caculateTotal(resultList, model);
+
+        model.addAttribute("results", resultList);
 
         return "memberStatistic";
     }
@@ -60,16 +77,61 @@ public class StatisticController {
 
     @RequestMapping(value = "/memberByYear/{year}", method = RequestMethod.GET)
     public String memberByYear(@PathVariable("year") int year, Model model) {
+        model.addAttribute("year", year);
         List<City> cities = getAllCities();
 
-        List<Map<String, Integer>> results = newArrayList();
+        List<Map<String, Integer>> resultList = newArrayList();
 
-        model.addAttribute("results", results);
+        DateTime begin = new DateTime(year, 1, 1, 0, 0);
+        DateTime end = begin.plusYears(1);
+
+        // No. of people acquired membership
+        Map<String, Integer> result = newHashMap();
+        resultList.add(result);
+        for (City city : cities) {
+            String cityCode = city.getMembershipAcquisitionCityCode();
+            result.put(cityCode, statisticService.getAcquiredMembershipCount(cityCode, begin.toDate(), end.toDate()));
+        }
+
+        // No. of purified members
+        result = newHashMap();
+        resultList.add(result);
+        for (City city : cities) {
+            String cityCode = city.getMembershipAcquisitionCityCode();
+            result.put(cityCode, statisticService.getPurifiedMemberCount(cityCode, begin.toDate(), end.toDate()));
+        }
+
+        // No. of member with family temple
+        result = newHashMap();
+        resultList.add(result);
+        for (City city : cities) {
+            String cityCode = city.getMembershipAcquisitionCityCode();
+            result.put(cityCode, statisticService.getFamilyTempleCound(cityCode, begin.toDate(), end.toDate()));
+        }
+
+        caculateTotal(resultList, model);
+
+        model.addAttribute("results", resultList);
 
         return "memberStatisticForYear";
     }
 
-    private void caculateTotal(List<Map<String, Integer>> results) {
+    @RequestMapping("/acquisition")
+    public String acquisition(Model model) {
+        return "acquisition";
+    }
+
+    @RequestMapping("/purified")
+    public String purified(Model model) {
+        return "purified";
+    }
+
+    @RequestMapping("/familyTemple")
+    public String familyTemple(Model model) {
+        return "familyTemple";
+    }
+
+    private void caculateTotal(List<Map<String, Integer>> results, Model model) {
         if (results.isEmpty()) {
             return;
         }
@@ -90,5 +152,19 @@ public class StatisticController {
         }
 
         results.add(total);
+
+        // row total
+        List<Integer> rowTotalList = newArrayList();
+        for (Map<String, Integer> result : results) {
+            int value = 0;
+            for (Integer i : result.values()) {
+                if (i != null) {
+                    value += i;
+                }
+            }
+
+            rowTotalList.add(value);
+        }
+        model.addAttribute("rowTotalList", rowTotalList);
     }
 }

@@ -31,9 +31,10 @@
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="<c:url value='/statistic/memberInTotal'/>">1. All member statistic in total</a></li>
                         <li><a href="<c:url value='/statistic/memberByYear'/>">2. All member statistic for a selected year</a></li>
-                        <li><a href="#">3. All membership acquisition statistic in total listed by years</a></li>
-                        <li><a href="#">4. All purified member statistic in total listed by years</a></li>
-                        <li><a href="#">5. All family temple member statistic in total listed by years</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<c:url value='/statistic/acquisition'/>">3. All membership acquisition statistic</a></li>
+                        <li><a href="<c:url value='/statistic/purified'/>">4. All purified member statistic</a></li>
+                        <li><a href="<c:url value='/statistic/familyTemple'/>">5. All family temple member statistic</a></li>
                     </ul>
                 </li>
 

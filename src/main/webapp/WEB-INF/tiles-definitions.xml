@@ -40,4 +40,15 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/statistic/memberStatisticForYear.jsp" />
 	</definition>
 
+	<definition name="acquisition" extends="mainLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/statistic/memberAcquisitionStatistic.jsp" />
+	</definition>
+
+	<definition name="purified" extends="mainLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/statistic/purifiedMemberStatistic.jsp" />
+	</definition>
+
+	<definition name="familyTemple" extends="mainLayout">
+		<put-attribute name="content" value="/WEB-INF/jsp/statistic/familyTempleMemberStatistic.jsp" />
+	</definition>
 </tiles-definitions>
