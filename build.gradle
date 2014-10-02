@@ -70,6 +70,13 @@ dependencies {
     )
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir 'deploy/properties'
+        }
+    }
+}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'

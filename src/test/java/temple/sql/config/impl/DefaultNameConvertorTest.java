@@ -1,6 +1,7 @@
 package temple.sql.config.impl;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -11,6 +12,7 @@ import static org.junit.Assert.assertThat;
  * Date: 9/7/14
  * Time: 10:44 PM
  */
+@Ignore
 public class DefaultNameConvertorTest {
     private DefaultNameConvertor convertor;
 

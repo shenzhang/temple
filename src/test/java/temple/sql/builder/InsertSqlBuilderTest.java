@@ -1,6 +1,7 @@
 package temple.sql.builder;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -11,6 +12,7 @@ import static org.junit.Assert.assertThat;
  * Date: 8/23/14
  * Time: 8:09 PM
  */
+@Ignore
 public class InsertSqlBuilderTest {
     private static final String TABLE = "T_USER";
     private InsertSqlBuilder builder;
