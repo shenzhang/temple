@@ -78,6 +78,10 @@ sourceSets {
     }
 }
 
+processResources {
+    exclude 'log4j.properties', 'temple.properties'
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
 }
