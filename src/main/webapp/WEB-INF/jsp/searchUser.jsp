@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <c:if test="${not empty messageStyle and not emptymessageContent}">
+    <c:if test="${not empty messageStyle and not empty messageContent}">
         <div class="row">
             <div class="col-lg-12">
                 <c:set var="style" value="label-success"/>
