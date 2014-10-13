@@ -159,7 +159,7 @@
             $('#deleteForm').get(0).submit();
         });
 
-        <c:if test="${showDialog}">
+        <c:if test="${showDialog == true}">
         showDialog();
         </c:if>
     });
