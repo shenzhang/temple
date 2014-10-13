@@ -76,8 +76,7 @@ sourceSets {
 }
 
 war {
-    exclude('**/log4j.properties')
-    exclude('**/temple.properties')
+    rootSpec.exclude 'log4j.properties', 'temple.properties'
 }
 
 task wrapper(type: Wrapper) {
