@@ -6,7 +6,7 @@ ext {
 
 buildscript {
     repositories {
-        maven { url 'http://127.0.0.1:8081/nexus/content/groups/public' }
+        maven { url 'http://127.0.0.1:8081/nexus/content/groups/public' }   // comment this line if you don't have a private nexus repo
         mavenCentral()
     }
 }
@@ -16,7 +16,7 @@ allprojects {
     apply plugin: 'java'
 
     repositories {
-        maven { url 'http://127.0.0.1:8081/nexus/content/groups/public' }
+        maven { url 'http://127.0.0.1:8081/nexus/content/groups/public' } // comment this line if you don't have a private nexus repo
         mavenCentral()
     }
 
