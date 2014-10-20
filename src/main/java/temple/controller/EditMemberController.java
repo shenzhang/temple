@@ -51,7 +51,7 @@ public class EditMemberController extends TempleController {
 
             @Override
             public void validate(Object target, Errors errors) {
-                Member member = (Member)target;
+                Member member = (Member) target;
                 if (member != null) {
                     MemberContact memberContact = member.getMemberContact();
                     if (memberContact == null || (isNullOrEmpty(memberContact.getHomePhone()) && isNullOrEmpty(memberContact.getMobilePhone()))) {
@@ -75,7 +75,7 @@ public class EditMemberController extends TempleController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getMember(@PathVariable("memberId")int memberId, Model model) {
+    public String getMember(@PathVariable("memberId") int memberId, Model model) {
         Member member = memberService.getMemberById(memberId);
         model.addAttribute("member", member);
 
@@ -90,12 +90,9 @@ public class EditMemberController extends TempleController {
             return "editMember";
         }
 
-        try {
-            memberService.updateMember(member);
-            message(model, true, "Update member success");
-        } catch (Exception e) {
-            LOG.error("Update member error", e);
-        }
+        memberService.updateMember(member);
+        message(model, true, "Update member success");
+
         return "editMember";
     }
 

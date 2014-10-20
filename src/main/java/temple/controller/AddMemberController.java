@@ -48,7 +48,7 @@ public class AddMemberController extends TempleController {
 
             @Override
             public void validate(Object target, Errors errors) {
-                Member member = (Member)target;
+                Member member = (Member) target;
                 if (member != null) {
                     MemberContact memberContact = member.getMemberContact();
                     if (memberContact == null || (isNullOrEmpty(memberContact.getHomePhone()) && isNullOrEmpty(memberContact.getMobilePhone()))) {
@@ -88,14 +88,9 @@ public class AddMemberController extends TempleController {
             return "addMember";
         }
 
-        try {
-            int memberId = memberService.addMember(member);
-            message(redirectAttributes, true, "Add member success");
+        int memberId = memberService.addMember(member);
+        message(redirectAttributes, true, "Add member success");
 
-            return "redirect:/members/" + memberId;
-        } catch (Exception e) {
-            LOG.error("Add member error", e);
-            return "addMember";
-        }
+        return "redirect:/members/" + memberId;
     }
 }
