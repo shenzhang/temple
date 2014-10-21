@@ -2,6 +2,7 @@ ext {
     springVersion = '4.0.3.RELEASE'
     metricsVersion = '3.0.1'
     deployDir = "$buildDir/deploy"
+    distDir = "dist"
 }
 
 buildscript {
@@ -99,6 +100,13 @@ task deploy(dependsOn: 'build') << {
     copy {
         from "$buildDir/libs"
         into "$deployDir"
+        include '*.war'
+    }
+
+    delete "$distDir"
+    copy {
+        from "$buildDir/libs"
+        into "$distDir"
         include '*.war'
     }
 }
