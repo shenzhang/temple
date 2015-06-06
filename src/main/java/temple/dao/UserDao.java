@@ -2,7 +2,7 @@ package temple.dao;
 
 import org.springframework.stereotype.Repository;
 import temple.model.User;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -18,11 +18,11 @@ public class UserDao extends AutowiredJdbcEnhancementDaoSupport {
     }
 
     public void updateUserById(int id, User user) {
-        jdbcEnhancement.update(user, newArrayList("id"), "ID = ?", id);
+        jdbcEnhancement.update("T_USER", user, newArrayList("id"), "ID = ?", id);
     }
 
     public void addUser(User user) {
-        jdbcEnhancement.insert(user, "id");
+        jdbcEnhancement.insert("T_USER", user, "id");
     }
 
     public void deleteUserById(int id) {

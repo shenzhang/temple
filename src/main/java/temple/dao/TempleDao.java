@@ -2,7 +2,7 @@ package temple.dao;
 
 import org.springframework.stereotype.Repository;
 import temple.model.Temple;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import java.util.List;
 

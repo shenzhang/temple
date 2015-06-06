@@ -51,6 +51,7 @@ dependencies {
             "com.codahale.metrics:metrics-servlets:$metricsVersion",
             "com.codahale.metrics:metrics-jvm:$metricsVersion",
 
+            'com.github.shenzhang:easy-jdbc:0.1.1',
             "org.springframework:spring-webmvc:$springVersion",
             "org.springframework:spring-jdbc:$springVersion",
             'org.springframework.security:spring-security-web:3.2.5.RELEASE',

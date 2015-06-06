@@ -1,11 +1,11 @@
 package temple.dao;
 
+import com.github.shenzhang.ejdbc.JdbcTempalteAppender;
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 import temple.model.Member;
 import temple.model.SearchMemberInfo;
-import temple.sql.JdbcTempalteAppender;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import java.util.List;
 
@@ -24,11 +24,11 @@ public class MemberDao extends AutowiredJdbcEnhancementDaoSupport {
     }
 
     public int addMember(Member member) {
-        return (int)jdbcEnhancement.insertAndReturnGeneratedKey("id", member, "ID");
+        return (int)jdbcEnhancement.insertAndReturnGeneratedKey("T_MEMBER", member, "id");
     }
 
     public void updateMember(Member member) {
-        jdbcEnhancement.update(member, newArrayList("id"), "id = ?", member.getId());
+        jdbcEnhancement.update("T_MEMBER", member, newArrayList("id"), "id = ?", member.getId());
     }
 
     public void deleteMemberById(int id) {

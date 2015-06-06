@@ -1,8 +1,8 @@
 package temple.dao;
 
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 import org.springframework.stereotype.Repository;
 import temple.model.City;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package temple.dao;
 
 import org.springframework.stereotype.Repository;
 import temple.model.MemberContact;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -15,7 +15,7 @@ import static com.google.common.collect.Lists.newArrayList;
 public class MemberContactDao extends AutowiredJdbcEnhancementDaoSupport {
     public void addMemberContact(int memberId, MemberContact memberContact) {
         memberContact.setMemberId(memberId);
-        jdbcEnhancement.insert(memberContact);
+        jdbcEnhancement.insert("T_MEMBER_CONTACT", memberContact);
     }
 
     public MemberContact getMemberContact(int memberId) {
@@ -23,7 +23,7 @@ public class MemberContactDao extends AutowiredJdbcEnhancementDaoSupport {
     }
 
     public void updateMemberContact(int memberId, MemberContact memberContact) {
-        jdbcEnhancement.update(memberContact, newArrayList("MEMBER_ID"), "MEMBER_ID = ?", memberId);
+        jdbcEnhancement.update("T_MEMBER_CONTACT", memberContact, newArrayList("MEMBER_ID"), "MEMBER_ID = ?", memberId);
     }
 
     public void deleteMemberContact(int memberId) {

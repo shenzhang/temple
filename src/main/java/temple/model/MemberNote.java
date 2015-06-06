@@ -1,13 +1,10 @@
 package temple.model;
 
-import temple.sql.annotation.Table;
-
 /**
  * User: shenzhang
  * Date: 9/6/14
  * Time: 12:46 PM
  */
-@Table("T_MEMBER_NOTE")
 public class MemberNote {
     private Integer noteId;
     private int memberId;

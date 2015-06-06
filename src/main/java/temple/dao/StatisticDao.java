@@ -1,9 +1,9 @@
 package temple.dao;
 
+import com.github.shenzhang.ejdbc.JdbcTempalteAppender;
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 import com.google.common.base.Strings;
 import org.springframework.stereotype.Repository;
-import temple.sql.JdbcTempalteAppender;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import java.util.Date;
 

@@ -2,7 +2,7 @@ package temple.dao;
 
 import org.springframework.stereotype.Repository;
 import temple.model.MemberNote;
-import temple.sql.dao.AutowiredJdbcEnhancementDaoSupport;
+import com.github.shenzhang.ejdbc.dao.AutowiredJdbcEnhancementDaoSupport;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class MemberNoteDao extends AutowiredJdbcEnhancementDaoSupport {
     public int addMemberNote(int memberId, MemberNote note) {
         note.setMemberId(memberId);
-        return (int)jdbcEnhancement.insertAndReturnGeneratedKey("note_id", note, "note_id");
+        return (int)jdbcEnhancement.insertAndReturnGeneratedKey("t_member_note", note, "note_id");
     }
 
     public MemberNote getMemberNote(int noteId) {

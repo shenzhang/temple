@@ -1,6 +1,5 @@
 package temple.model;
 
-import temple.sql.annotation.Table;
 import temple.util.lunar.Lunar;
 
 import javax.validation.constraints.Min;
@@ -15,7 +14,6 @@ import java.util.List;
  * Date: 8/23/14
  * Time: 7:36 PM
  */
-@Table("T_MEMBER")
 public class Member {
     private Integer id;
     @Size(message = "Last Name is required", min = 1)

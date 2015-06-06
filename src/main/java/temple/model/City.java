@@ -1,13 +1,10 @@
 package temple.model;
 
-import temple.sql.annotation.Table;
-
 /**
  * User: shenzhang
  * Date: 9/7/14
  * Time: 2:37 PM
  */
-@Table("T_CITY")
 public class City {
     private String membershipAcquisitionCityCode;
     private String membershipAcquisitionCityName;
