@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <table class="table table-bordered" style="width:100%">
     <thead>
     <tr>
         <th>
-            Member Statistics
+            道亲统计 (Member Statistics)
         </th>
 
         <c:forEach items="${cities}" var="city">
@@ -14,14 +16,14 @@
         </c:forEach>
 
         <th>
-            Total
+            总计 (Total)
         </th>
     </tr>
     </thead>
 
     <tbody>
     <tr>
-        <td>No. of people acquired membership</td>
+        <td>求道人数 (No. of people acquired membership)</td>
 
         <c:forEach items="${cities}" var="city">
             <td>
@@ -34,7 +36,7 @@
     </tr>
 
     <tr>
-        <td>No. of purified members</td>
+        <td>清口人数 (No. of purified members)</td>
 
         <c:forEach items="${cities}" var="city">
             <td>
@@ -47,7 +49,7 @@
     </tr>
 
     <tr>
-        <td>No. of member with family temple</td>
+        <td>安堂人数 (No. of member with family temple)</td>
 
         <c:forEach items="${cities}" var="city">
             <td>
@@ -56,19 +58,6 @@
         </c:forEach>
         <td>
             <c:out value="${rowTotalList['2']}"/>
-        </td>
-    </tr>
-
-    <tr>
-        <td>Total</td>
-
-        <c:forEach items="${cities}" var="city">
-            <td>
-                <c:out value="${results['3'][city.code]}"/>
-            </td>
-        </c:forEach>
-        <td>
-            <c:out value="${rowTotalList['3']}"/>
         </td>
     </tr>
     </tbody>

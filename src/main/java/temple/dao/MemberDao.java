@@ -40,10 +40,10 @@ public class MemberDao extends AutowiredJdbcEnhancementDaoSupport {
         appender.append("SELECT M.* FROM T_MEMBER M WHERE 1=1 ");
         if (info != null) {
             if (!isNullOrEmpty(info.getName())) {
-                appender.append(" AND M.CHINESE_LAST_NAME = ? ", info.getName());
+                appender.append(" AND UPPER(M.CHINESE_LAST_NAME) like ? ", "%" + info.getName().toUpperCase() + "%");
             }
             if (!isNullOrEmpty(info.getIntroducerName())) {
-                appender.append(" AND M.INTRODUCER_NAME = ? ", info.getIntroducerName());
+                appender.append(" AND UPPER(M.INTRODUCER_NAME) like ? ", "%" + info.getIntroducerName().toUpperCase() + "%");
             }
             if (info.getAcquisitionYear() != null) {
                 DateTime begin = new DateTime(info.getAcquisitionYear(), 1, 1, 0, 0);

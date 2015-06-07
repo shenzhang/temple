@@ -17,11 +17,16 @@ public class UserDao extends AutowiredJdbcEnhancementDaoSupport {
         return jdbcEnhancement.queryForObject(User.class, "SELECT * FROM T_USER WHERE ID = ? AND ENABLED = ?", id, true);
     }
 
+    public User getUserByName(String name) {
+        return jdbcEnhancement.queryForObject(User.class, "SELECT * FROM T_USER WHERE NAME = ? AND ENABLED = ?", name, true);
+    }
+
     public void updateUserById(int id, User user) {
         jdbcEnhancement.update("T_USER", user, newArrayList("id"), "ID = ?", id);
     }
 
     public void addUser(User user) {
+        String name = user.getName();
         jdbcEnhancement.insert("T_USER", user, "id");
     }
 

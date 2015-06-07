@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
@@ -9,21 +10,21 @@
 
 <form class="form-horizontal" role="form" action="j_spring_security_check" method="post" style="padding-top:50px">
     <div class="form-group">
-        <label for="username" class="col-sm-offset-2 col-sm-2 control-label">User ID</label>
+        <label for="username" class="col-sm-offset-2 col-sm-2 control-label">用户名 (User Name):</label>
         <div class="col-sm-8">
             <input id="username" type="text" name="j_username"/>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="password" class="col-sm-offset-2 col-sm-2 control-label">Password</label>
+        <label for="password" class="col-sm-offset-2 col-sm-2 control-label">密码 (Password):</label>
         <div class="col-sm-8">
             <input id="password" type="password" name="j_password"/>
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-4 col-sm-8">
-            <input type="submit" class="btn btn-primary" value="Login"/>
+            <input type="submit" class="btn btn-primary" value="登陆系统 (Login)"/>
         </div>
     </div>
 </form>

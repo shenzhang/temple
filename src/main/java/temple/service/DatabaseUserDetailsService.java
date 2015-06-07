@@ -31,7 +31,7 @@ public class DatabaseUserDetailsService implements UserDetailsService, Initializ
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.getUserById(Integer.parseInt(username));
+        User user = userDao.getUserByName(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(username);

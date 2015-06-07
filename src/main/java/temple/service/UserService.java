@@ -17,8 +17,8 @@ public class UserService {
     private UserDao userDao;
 
     @Transactional(readOnly = true)
-    public User getUser(int id) {
-        return userDao.getUserById(id);
+    public User getUser(String name) {
+        return userDao.getUserByName(name);
     }
 
     @Transactional

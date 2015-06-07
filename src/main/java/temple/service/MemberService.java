@@ -97,7 +97,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member getMemberById(int id) {
         Member member = memberDao.getMemberById(id);
-        member.setLastModifyUser(userDao.getUserById(member.getLastUpdateUserId()));
+        member.setLastModifyUser(userDao.getUserByName(member.getLastUpdateUserId()));
 
         member.setMemberContact(memberContactDao.getMemberContact(id));
         member.setMemberNotes(memberNoteDao.listMemberNotes(id));
@@ -107,7 +107,7 @@ public class MemberService {
 
     private void updateLastModifyInformation(Member member) {
         member.setLastUpdateDate(new Date());
-        member.setLastUpdateUserId(Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName()));
+        member.setLastUpdateUserId(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @Transactional

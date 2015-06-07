@@ -1,10 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <table class="table table-bordered" style="width:100%">
     <thead>
     <tr>
         <th>
-            Statistics
+            年份 (Year)
         </th>
 
         <c:forEach items="${cities}" var="city">
@@ -14,7 +15,7 @@
         </c:forEach>
 
         <th>
-            Total
+            总计 (Total)
         </th>
     </tr>
     </thead>
@@ -36,7 +37,9 @@
     </c:forEach>
 
     <tr>
-        <td>Total</td>
+        <td>
+            总计 (Total)
+        </td>
 
         <c:forEach items="${cities}" var="city">
             <td>

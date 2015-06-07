@@ -1,11 +1,7 @@
 package temple.model;
 
-import temple.util.lunar.Lunar;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +12,7 @@ import java.util.List;
  */
 public class Member {
     private Integer id;
-    @Size(message = "Last Name is required", min = 1)
     private String lastName;
-    @Size(message = "First Name is required", min = 1)
     private String firstName;
     @Size(message = "Chinese Last Name is required", min = 1)
     private String chineseLastName;
@@ -28,6 +22,8 @@ public class Member {
     private String introducerName;
     @NotNull(message = "Membership Acquisition Date is required")
     private Date membershipAcquisitionDate;
+    private String membershipAcquisitionLunarDate;
+
     @Size(message = "Membership Acquisition Temple is required", min = 1)
     private String membershipAcquisitionTempleCode;
     private String membershipAcquisitionCityCode;
@@ -37,12 +33,10 @@ public class Member {
     private String masterName;
     @Size(message = "Guarantor Name is required", min = 1)
     private String guarantorName;
-    @NotNull(message = "Group Number is required")
-    @Min(0)
     private Integer groupNumber;
     @NotNull(message = "DOB is required")
     private Date dob;
-    private int lastUpdateUserId;
+    private String lastUpdateUserId;
     private Date lastUpdateDate;
 
     // member contact
@@ -104,17 +98,6 @@ public class Member {
 
     public Date getMembershipAcquisitionDate() {
         return membershipAcquisitionDate;
-    }
-
-    public String getLunarDate() {
-        if (membershipAcquisitionDate == null) {
-            return null;
-        }
-
-        Calendar now = Calendar.getInstance();
-        now.setTime(membershipAcquisitionDate);
-        Lunar lunar = new Lunar(now);
-        return lunar.toString();
     }
 
     public void setMembershipAcquisitionDate(Date membershipAcquisitionDate) {
@@ -185,11 +168,11 @@ public class Member {
         this.dob = dob;
     }
 
-    public int getLastUpdateUserId() {
+    public String getLastUpdateUserId() {
         return lastUpdateUserId;
     }
 
-    public void setLastUpdateUserId(int lastUpdateUserId) {
+    public void setLastUpdateUserId(String lastUpdateUserId) {
         this.lastUpdateUserId = lastUpdateUserId;
     }
 
@@ -231,5 +214,13 @@ public class Member {
 
     public void setAcquisitionTemple(Temple acquisitionTemple) {
         this.acquisitionTemple = acquisitionTemple;
+    }
+
+    public String getMembershipAcquisitionLunarDate() {
+        return membershipAcquisitionLunarDate;
+    }
+
+    public void setMembershipAcquisitionLunarDate(String membershipAcquisitionLunarDate) {
+        this.membershipAcquisitionLunarDate = membershipAcquisitionLunarDate;
     }
 }

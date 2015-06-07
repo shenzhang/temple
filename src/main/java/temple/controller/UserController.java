@@ -58,8 +58,8 @@ public class UserController extends TempleController {
             return "searchUser";
         }
 
-        log.info("Search user by id, id = {}", searchUserInfo.getUserId());
-        User user = userService.getUser(Integer.parseInt(searchUserInfo.getUserId()));
+        log.info("Search user by name, name = {}", searchUserInfo.getUserName());
+        User user = userService.getUser(searchUserInfo.getUserName());
         if (user == null) {
             message(model, false, "No Result");
         } else {
@@ -78,7 +78,8 @@ public class UserController extends TempleController {
 
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String addUser(@ModelAttribute("newUser") User user, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-        validateNewUser(user, result);
+        validateBasicUser(user, result);
+        validateUserExist(user, result);
 
         if (result.hasErrors()) {
             model.addAttribute("showDialog", true);
@@ -97,7 +98,7 @@ public class UserController extends TempleController {
         if (user.getId() <= 0) {
             errors.rejectValue("id", null, "Should provide user id");
         }
-        validateNewUser(user, errors);
+        validateBasicUser(user, errors);
 
         if (!errors.hasErrors()) {
             log.info("Update user: {}", user.toString());
@@ -109,24 +110,27 @@ public class UserController extends TempleController {
     }
 
     private void validateSearchUserInfo(SearchUserInfo info, Errors errors) {
-        String userId = info.getUserId();
-        if (Strings.isNullOrEmpty(userId)) {
-            errors.rejectValue("userId", null, "Please input valid user id");
-        } else {
-            try {
-                Integer.parseInt(userId);
-            } catch (Exception e) {
-                errors.rejectValue("userId", null, "Please input valid user id");
-            }
+        String userName = info.getUserName();
+        if (Strings.isNullOrEmpty(userName)) {
+            errors.rejectValue("userName", null, "Please input valid user name");
         }
     }
 
-    private void validateNewUser(User user, Errors errors) {
+    private void validateBasicUser(User user, Errors errors) {
         ValidationUtils.rejectIfEmpty(errors, "name", null, "Should provide user name");
         ValidationUtils.rejectIfEmpty(errors, "password", null, "Should provide password");
 
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             errors.rejectValue("confirmPassword", null, "Confirmed password is different with password");
+        }
+    }
+
+    private void validateUserExist(User user, Errors errors) {
+        String name = user.getName();
+        if (!Strings.isNullOrEmpty(name)) {
+            if (userService.getUser(name) != null) {
+                errors.rejectValue("name", null, "User name has already exists");
+            }
         }
     }
 }
