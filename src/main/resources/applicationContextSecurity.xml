@@ -10,6 +10,7 @@
 	<http pattern="/test" security="none"/>
 	<http pattern="/js/**" security="none"/>
 	<http pattern="/css/**" security="none"/>
+	<http pattern="/img/**" security="none"/>
 
 	<http auto-config='true'>
 		<form-login login-page="/login" default-target-url="/search" always-use-default-target="true"/>
