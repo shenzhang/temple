@@ -3,7 +3,6 @@ package temple.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,8 +18,6 @@ import temple.model.Member;
 import temple.model.Temple;
 import temple.service.MemberService;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,9 +54,6 @@ public class AddMemberController extends TempleController {
 //                }
 //            }
 //        });
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
     @ModelAttribute("allTemples")

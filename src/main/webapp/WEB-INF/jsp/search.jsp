@@ -59,7 +59,7 @@
                                 ${member.acquisitionTemple.membershipAcquisitionTempleName}
                             </td>
                             <td>
-                                <fmt:formatDate value="${member.membershipAcquisitionDate}" pattern="MM/dd/yyyy"/>
+                                <fmt:formatDate value="${member.membershipAcquisitionDate}" pattern="dd/MM/yyyy"/>
                             </td>
                         </tr>
                     </c:forEach>
