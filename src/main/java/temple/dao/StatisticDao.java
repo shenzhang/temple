@@ -70,4 +70,16 @@ public class StatisticDao extends AutowiredJdbcEnhancementDaoSupport {
 
         return appender.queryForObject(Integer.class);
     }
+
+    public Date getEariestAcquisitionDate() {
+        return jdbcEnhancement.queryForObject(Date.class, "select min(membership_acquisition_date) from t_member");
+    }
+
+    public Date getEariestPurificationDate() {
+        return jdbcEnhancement.queryForObject(Date.class, "select min(member_purification_date) from t_member");
+    }
+
+    public Date getEariestFamilyTempleDate() {
+        return jdbcEnhancement.queryForObject(Date.class, "select min(member_family_temple_date) from t_member");
+    }
 }

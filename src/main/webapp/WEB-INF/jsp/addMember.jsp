@@ -36,18 +36,21 @@
                 <table style="width:100%; border-collapse: collapse;">
                     <tr class="table-title-row">
                         <td colspan="4" class="border-bottom">
-                            添加会员 (Add Member)
+                            添加道亲 (Add Member)
                         </td>
                     </tr>
 
                     <tr>
                         <td style="width:150px">姓 (Last Name):</td>
-                        <td>
+                        <td colspan="3">
                             <form:input path="chineseLastName"/>
                             <form:errors path="chineseLastName" cssClass="error"/>
                         </td>
-                        <td style="width:260px">名 (First Name):</td>
-                        <td>
+                    </tr>
+
+                    <tr>
+                        <td>名 (First Name):</td>
+                        <td colspan="3">
                             <form:input path="chineseFirstName"/>
                             <form:errors path="chineseFirstName" cssClass="error"/>
                         </td>
@@ -55,7 +58,7 @@
 
                     <tr class="table-title-row">
                         <td colspan="2">
-                            会员信息
+                            道亲信息
                         </td>
                         <td colspan="2">
                             佛堂信息

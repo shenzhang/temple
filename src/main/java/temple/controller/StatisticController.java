@@ -12,6 +12,7 @@ import temple.model.City;
 import temple.model.statistic.YearResult;
 import temple.service.StatisticService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -119,8 +120,9 @@ public class StatisticController {
 
     @RequestMapping("/acquisition")
     public String acquisition(Model model) {
-        int beginYear = 1999;
+        Date beginDate = statisticService.getEariestAcquisitionDate();
         int endYear = DateTime.now().getYear();
+        int beginYear = beginDate == null ? endYear : (beginDate.getYear() + 1900);
 
         List<YearResult> yearResultList = statisticService.getStatisticYearResultListForAcquisitionMember(beginYear, endYear);
         model.addAttribute("results", yearResultList);
@@ -146,8 +148,9 @@ public class StatisticController {
 
     @RequestMapping("/purified")
     public String purified(Model model) {
-        int beginYear = 1999;
+        Date beginDate = statisticService.getEariestPurificationDate();
         int endYear = DateTime.now().getYear();
+        int beginYear = beginDate == null ? endYear : (beginDate.getYear() + 1900);
 
         List<YearResult> yearResultList = statisticService.getStatisticYearResultListForPurifiedMember(beginYear, endYear);
         model.addAttribute("results", yearResultList);
@@ -173,8 +176,9 @@ public class StatisticController {
 
     @RequestMapping("/familyTemple")
     public String familyTemple(Model model) {
-        int beginYear = 1999;
+        Date beginDate = statisticService.getEariestFamilyTempleDate();
         int endYear = DateTime.now().getYear();
+        int beginYear = beginDate == null ? endYear : (beginDate.getYear() + 1900);
 
         List<YearResult> yearResultList = statisticService.getStatisticYearResultListForFamilyTemple(beginYear, endYear);
         model.addAttribute("results", yearResultList);

@@ -135,4 +135,19 @@ public class StatisticService {
 
         return yearResultList;
     }
+
+    @Transactional(readOnly = true)
+    public Date getEariestAcquisitionDate() {
+        return statisticDao.getEariestAcquisitionDate();
+    }
+
+    @Transactional(readOnly = true)
+    public Date getEariestPurificationDate() {
+        return statisticDao.getEariestPurificationDate();
+    }
+
+    @Transactional(readOnly = true)
+    public Date getEariestFamilyTempleDate() {
+        return statisticDao.getEariestFamilyTempleDate();
+    }
 }
