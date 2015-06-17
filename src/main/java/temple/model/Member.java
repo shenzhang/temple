@@ -18,6 +18,7 @@ public class Member {
     private String chineseLastName;
     @Size(message = "Chinese First Name is required", min = 1)
     private String chineseFirstName;
+    private String gender;
     @Size(message = "Introducer Name is required", min = 1)
     private String introducerName;
     @NotNull(message = "Membership Acquisition Date is required")
@@ -222,5 +223,13 @@ public class Member {
 
     public void setMembershipAcquisitionLunarDate(String membershipAcquisitionLunarDate) {
         this.membershipAcquisitionLunarDate = membershipAcquisitionLunarDate;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

@@ -40,6 +40,7 @@
                     <tr>
                         <th>姓 (Last Name)</th>
                         <th>名 (First Name)</th>
+                        <th>性别 (Gender)</th>
                         <th>引师 (Introducer)</th>
                         <th>保师 (Guarantor)</th>
                         <th>组别 (Group)</th>
@@ -52,6 +53,7 @@
                         <tr class="clickable-row" title="click to edit member" onclick="editMember(${member.id})">
                             <td>${member.chineseLastName}</td>
                             <td>${member.chineseFirstName}</td>
+                            <td>${member.gender}</td>
                             <td>${member.introducerName}</td>
                             <td>${member.guarantorName}</td>
                             <td>${member.groupNumber}</td>
