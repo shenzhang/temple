@@ -68,7 +68,7 @@
                     <tr>
                         <td>性别 (Gender):</td>
                         <td>
-                            <form:select path="gender">
+                            <form:select path="gender" cssStyle="width:50px">
                                 <form:option value="乾" label="乾"/>
                                 <form:option value="坤" label="坤"/>
                             </form:select>
