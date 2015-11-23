@@ -12,13 +12,27 @@
 	<http pattern="/css/**" security="none"/>
 	<http pattern="/img/**" security="none"/>
 
+	<http pattern="/search" authentication-manager-ref="inMemoryAuthenticationManager" auto-config="true">
+		<http-basic/>
+		<anonymous enabled="false"/>
+		<intercept-url pattern="/**" access="ROLE_USER"/>
+	</http>
+
 	<http auto-config='true'>
 		<form-login login-page="/login" default-target-url="/search" always-use-default-target="true"/>
-		<logout logout-success-url="/login"/>
+		<logout logout-success-url="/login" logout-url="/logout"/>
 		<intercept-url pattern="/**" access="ROLE_USER"/>
 	</http>
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsService"/>
+	</authentication-manager>
+
+	<authentication-manager id="inMemoryAuthenticationManager">
+		<authentication-provider>
+			<user-service>
+				<user name="shenzhang" password="123" authorities="ROLE_USER"/>
+			</user-service>
+		</authentication-provider>
 	</authentication-manager>
 </beans:beans>

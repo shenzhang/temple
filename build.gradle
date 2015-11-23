@@ -1,5 +1,7 @@
 ext {
-    springVersion = '4.0.3.RELEASE'
+    springVersion = '4.2.3.RELEASE'
+//    springSecurityVersion = '4.0.3.RELEASE'
+    springSecurityVersion = '3.2.7.RELEASE'
     metricsVersion = '3.0.1'
     deployDir = "$buildDir/deploy"
     distDir = "dist"
@@ -23,8 +25,8 @@ allprojects {
 
     idea {
         project {
-            jdkName = '1.7'
-            languageLevel = '1.7'
+            jdkName = '1.8'
+            languageLevel = '1.8'
         }
     }
 }
@@ -54,8 +56,8 @@ dependencies {
             'com.github.shenzhang:easy-jdbc:0.1.1',
             "org.springframework:spring-webmvc:$springVersion",
             "org.springframework:spring-jdbc:$springVersion",
-            'org.springframework.security:spring-security-web:3.2.5.RELEASE',
-            'org.springframework.security:spring-security-config:3.2.5.RELEASE',
+            "org.springframework.security:spring-security-web:$springSecurityVersion",
+            "org.springframework.security:spring-security-config:$springSecurityVersion",
 
             'org.hibernate:hibernate-validator:5.1.2.Final',
             'joda-time:joda-time:2.4',
